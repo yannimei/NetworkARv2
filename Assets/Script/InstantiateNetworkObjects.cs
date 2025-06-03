@@ -7,7 +7,13 @@ public class InstantiateNetworkObjects : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject myPrefab;
     private GameObject myPrefabTransform = null;
-    public NetworkVariable<bool> memesOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public GameObject myFacePrefab;
+    private GameObject faceSwapTransform = null;
+
+    [SerializeField] private NetworkVariable<bool> memesOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] private NetworkVariable<bool> faceOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    
+
     [SerializeField] public List<GameObject> prefabList;
     private int currentIndex = 0;
 
@@ -20,18 +26,8 @@ public class InstantiateNetworkObjects : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
-        this.transform.position = Vector3.zero;
-        // Get reference to the OVRCameraRig's CenterEyeAnchor
-        Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor").transform;
 
-        if( cameraAnchor != null)
-        {
-            this.transform.localScale *= 2;
-        }
-
-        //this.transform.SetParent(cameraAnchor, false);
-        //this.transform.localPosition = Vector3.zero;
-        //this.transform.localRotation = Quaternion.identity;
+        transform.position = new Vector3(Random.Range(0, 1), 0, Random.Range(0, 1));
     }
 
     // Update is called once per frame
@@ -65,32 +61,64 @@ public class InstantiateNetworkObjects : NetworkBehaviour
             }
             
         }
+
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            if (faceOn.Value == false)
+            {
+                Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+                FaceSwapServerRpc(cameraAnchor.position, cameraAnchor.rotation, NetworkManager.Singleton.LocalClientId);
+
+                faceOn.Value = !faceOn.Value;
+            } else
+            {
+                DespawnFaceSwapServerRpc();
+                faceOn.Value = !faceOn.Value;
+            }
+                
+        }
+
+        //let the face follow the camera
+        //if (faceSwapTransform != null && faceOn.Value)
+        //{
+        //    Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+        //    FollowCamera(cameraAnchor.position,cameraAnchor.rotation) ;
+        //}
+        
+        Transform camAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+        this.IFollowCamera(camAnchor.position, camAnchor.rotation);
     }
 
- 
+
+    public void IFollowCamera(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+    }
+
+    public void FollowCamera(Vector3 position, Quaternion rotation)
+    {
+        faceSwapTransform.transform.position = position;
+        faceSwapTransform.transform.rotation = rotation;
+    }
+
     // the client need to call server to instantiate object
     [ServerRpc]
     public void InstantiatePrefabServerRpc(int index, Vector3 position, Quaternion rotation)
     {
 
-        if (index < 0 || index >= prefabList.Count)
-        {
-            Debug.LogError("Invalid prefab index");
-            return;
-        }
-
+        if (index < 0 || index >= prefabList.Count) return;
+       
        // GameObject spawnedPrefab = prefabList[index];
         myPrefabTransform = Instantiate(prefabList[index], position, rotation);
 
-        if (myPrefabTransform != null)
+        if (myPrefabTransform != null) 
         {
             myPrefabTransform.GetComponent<NetworkObject>().Spawn(true);
-        } else
-        {
-            return;
         }
+        else return;
     }
-        
+
 
     [ServerRpc]
     public void DespawnPrefabServerRpc()
@@ -99,10 +127,40 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         {
             myPrefabTransform.GetComponent<NetworkObject>().Despawn(true);
         }
-        else
-        {
-            return;
-        }
+        else return;
     }
+
+    //face swap
+    [ServerRpc]
+    public void FaceSwapServerRpc(Vector3 _position, Quaternion _rotation, ulong clientId)
+    {
+        
+        faceSwapTransform = Instantiate(myFacePrefab, _position, _rotation);
+
+        //ulong clientId = rpcParams.Receive.SenderClientId;
+
+        if (faceSwapTransform != null)
+        {
+            faceSwapTransform.GetComponent<NetworkObject>().SpawnWithOwnership(clientId,true);
+        }
+        else return;
+    }
+
+    [ServerRpc]
+    public void DespawnFaceSwapServerRpc()
+    {
+        if (faceSwapTransform != null)
+        {
+            faceSwapTransform.GetComponent<NetworkObject>().Despawn(true);
+        } else return;
+    }
+
+    [ServerRpc]
+    public void FollowCameraServerRpc(Vector3 position, Quaternion rotation)
+    {
+        faceSwapTransform.transform.position = position;
+        faceSwapTransform.transform.rotation = rotation;
+    }
+
 }
 
