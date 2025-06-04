@@ -16,9 +16,4 @@ public class FollowCamera : NetworkBehaviour
         this.transform.position = cam.position;
         this.transform.rotation = cam.rotation;
     }
-
-    public void OverrideCamAnchor(Transform clientCam)
-    {
-        this.cam = clientCam;
-    }
 }
