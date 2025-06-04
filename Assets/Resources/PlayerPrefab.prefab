@@ -76,6 +76,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   myPrefab: {fileID: 3234171730851107982, guid: 3e1283450a242c7438cc296457bf8016, type: 3}
   myFacePrefab: {fileID: 3998068895720143547, guid: a5800d425a2031247a2ebe72f8a27383, type: 3}
+  clientFacePrefab: {fileID: 3998068895720143547, guid: f15e34d21aed6b747a12a05031b4b8dc, type: 3}
+  camAnchorPrefab: {fileID: 3998068895720143547, guid: 647638326cbf8d3478a071ed3b0893fb, type: 3}
   memesOn:
     m_InternalValue: 0
   faceOn:
