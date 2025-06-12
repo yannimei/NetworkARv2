@@ -5,8 +5,10 @@ using System.Collections.Generic;
 public class InstantiateNetworkObjects : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject myPrefab;
+
     private GameObject myPrefabTransform = null;
+    private GameObject clientPrefabTransform = null;
+
     public GameObject myFacePrefab;
     public GameObject clientFacePrefab;
     private GameObject faceSwapTransform = null;
@@ -14,11 +16,15 @@ public class InstantiateNetworkObjects : NetworkBehaviour
 
     [SerializeField] private NetworkVariable<bool> memesOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private NetworkVariable<bool> faceOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    
+    [SerializeField] private NetworkVariable<bool> clientMemesOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] private NetworkVariable<bool> clientFaceOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    [SerializeField] public List<GameObject> prefabList;
+
+    [SerializeField] public List<GameObject> prefabList; //prefab list for host
+    [SerializeField] public List<GameObject> clientPrefabList; //prefab list for client
 
     private int currentIndex = 0;
+    private int clientCurrentIndex = 0;
 
     void Start()
     {
@@ -41,26 +47,46 @@ public class InstantiateNetworkObjects : NetworkBehaviour
 
         if (OVRInput.GetDown(OVRInput.Button.Two))
         {
-            if (memesOn.Value == false)
+            if (NetworkManager.Singleton.IsServer) //if the user is the host
             {
-                // get the position of right cotroller
-                Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
-                Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+                if (memesOn.Value == false)
+                {
+                    // get the position of right cotroller
+                    Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
+                    Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
 
-                // instantiate network gameobject
-                InstantiatePrefabServerRpc(currentIndex, _position, _rotation);
+                    // instantiate network gameobject
+                    InstantiatePrefabServerRpc(currentIndex, _position, _rotation);
 
-                // update memes situation
-                memesOn.Value = !memesOn.Value;
+                    // update memes situation
+                    memesOn.Value = !memesOn.Value;
 
-                // Advance and wrap index locally
-                currentIndex = (currentIndex + 1) % prefabList.Count;
+                    // Advance and wrap index locally
+                    currentIndex = (currentIndex + 1) % prefabList.Count;
+                }
+                else // the user is client
+                {
+                    DespawnPrefabServerRpc();
+
+                    // update memes situation
+                    memesOn.Value = !memesOn.Value;
+                }
             } else
             {
-                DespawnPrefabServerRpc();
-               
-                // update memes situation
-                memesOn.Value = !memesOn.Value;
+                if (clientMemesOn.Value == false)
+                {
+                    // get the position of right cotroller
+                    Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
+                    Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+                    ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation);
+                    clientMemesOn.Value = !clientMemesOn.Value;
+                    clientCurrentIndex = (clientCurrentIndex + 1) % clientPrefabList.Count;
+                }
+                else
+                {
+                    ClientDespawnPrefabServerRpc();
+                    clientMemesOn.Value = !clientMemesOn.Value;
+                }
             }
             
         }
@@ -120,7 +146,6 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         else return;
     }
 
-
     [ServerRpc]
     public void DespawnPrefabServerRpc()
     {
@@ -130,6 +155,33 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         }
         else return;
     }
+
+    [ServerRpc]
+    public void ClientInstantiatePrefabServerRpc(int index, Vector3 position, Quaternion rotation)
+    {
+
+        if (index < 0 || index >= clientPrefabList.Count) return;
+
+        // GameObject spawnedPrefab = prefabList[index];
+        clientPrefabTransform = Instantiate(clientPrefabList[index], position, rotation);
+
+        if (clientPrefabTransform != null)
+        {
+            clientPrefabTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
+        else return;
+    }
+
+    [ServerRpc]
+    public void ClientDespawnPrefabServerRpc()
+    {
+        if (clientPrefabTransform != null)
+        {
+            clientPrefabTransform.GetComponent<NetworkObject>().Despawn(true);
+        }
+        else return;
+    }
+
 
     //face swap
     [ServerRpc]

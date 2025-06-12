@@ -74,20 +74,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  myPrefab: {fileID: 3234171730851107982, guid: 3e1283450a242c7438cc296457bf8016, type: 3}
   myFacePrefab: {fileID: 3998068895720143547, guid: a5800d425a2031247a2ebe72f8a27383, type: 3}
   clientFacePrefab: {fileID: 3998068895720143547, guid: f15e34d21aed6b747a12a05031b4b8dc, type: 3}
-  camAnchorPrefab: {fileID: 3998068895720143547, guid: 647638326cbf8d3478a071ed3b0893fb, type: 3}
   memesOn:
     m_InternalValue: 0
   faceOn:
     m_InternalValue: 0
+  clientMemesOn:
+    m_InternalValue: 0
+  clientFaceOn:
+    m_InternalValue: 0
   prefabList:
   - {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
   - {fileID: 1221499880570116155, guid: d077edee4b617814d8be559e64b2d006, type: 3}
-  - {fileID: 6008686459198496272, guid: bfa272bb1e67ea345b3ad11580d8b43a, type: 3}
-  - {fileID: 8933135977977695256, guid: 5ec4279fa40149943b3a702aaf254007, type: 3}
+  clientPrefabList:
   - {fileID: 8213551965240709433, guid: b9f5af3014d1ed745846dd15a940de0b, type: 3}
+  - {fileID: 6008686459198496272, guid: bfa272bb1e67ea345b3ad11580d8b43a, type: 3}
 --- !u!114 &-6432761373060259912
 MonoBehaviour:
   m_ObjectHideFlags: 0
