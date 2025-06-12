@@ -52,8 +52,10 @@ public class InstantiateNetworkObjects : NetworkBehaviour
                 if (memesOn.Value == false)
                 {
                     // get the position of right cotroller
-                    Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
-                    Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+                    //Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
+                    //Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+                    Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+                    Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
 
                     // instantiate network gameobject
                     InstantiatePrefabServerRpc(currentIndex, _position, _rotation);
@@ -76,8 +78,8 @@ public class InstantiateNetworkObjects : NetworkBehaviour
                 if (clientMemesOn.Value == false)
                 {
                     // get the position of right cotroller
-                    Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
-                    Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+                    Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+                    Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
                     ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation);
                     clientMemesOn.Value = !clientMemesOn.Value;
                     clientCurrentIndex = (clientCurrentIndex + 1) % clientPrefabList.Count;
