@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.48584908, b: 0.48584908, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -315,7 +315,6 @@ GameObject:
   - component: {fileID: 4615339742482446973}
   - component: {fileID: 6603646586192371253}
   - component: {fileID: -6432761373060259912}
-  - component: {fileID: 7194883773391143121}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -372,7 +371,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4241049411326781799}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0428f7dcfb1a814d94e07fd48867eb0, type: 3}
   m_Name: 
@@ -389,10 +388,10 @@ MonoBehaviour:
   clientFaceOn:
     m_InternalValue: 0
   prefabList:
-  - {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
+  - {fileID: 5809250325476735610, guid: 4f6044b657ea8f449bb85c07f5efae71, type: 3}
   - {fileID: 1221499880570116155, guid: d077edee4b617814d8be559e64b2d006, type: 3}
   clientPrefabList:
-  - {fileID: 8213551965240709433, guid: b9f5af3014d1ed745846dd15a940de0b, type: 3}
+  - {fileID: 5809250325476735610, guid: ef1781d27d41075418ad7dcf51e71875, type: 3}
   - {fileID: 6008686459198496272, guid: bfa272bb1e67ea345b3ad11580d8b43a, type: 3}
 --- !u!114 &-6432761373060259912
 MonoBehaviour:
@@ -440,21 +439,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &7194883773391143121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4241049411326781799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6caef179655c77d469e8d011e5291ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  testPrefab: {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
-  spawnButton: {fileID: 5294955616989601281}
 --- !u!1 &5157994530562496569
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,7 +601,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d26ad9c1b487864f89d3d6cc0a6e1c4, type: 2}
+  - {fileID: 2100000, guid: ec57de5f372aace42a4f8de1eb165523, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -786,7 +770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3772780923320731982
 RectTransform:
   m_ObjectHideFlags: 0
@@ -884,6 +868,7 @@ GameObject:
   - component: {fileID: 2751211781304994690}
   - component: {fileID: 6800499941927370396}
   - component: {fileID: 5294955616989601281}
+  - component: {fileID: 7935714745524862990}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -908,7 +893,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -30.8, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2751211781304994690
@@ -993,3 +978,28 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7935714745524862990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8867573919227694038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 269016585
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0

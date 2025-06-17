@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SpawnTest : NetworkBehaviour
 {
     public GameObject testPrefab;
+    public GameObject clientTestPrefab;
     public Button spawnButton;
 
     // Example position/rotation for spawning
@@ -14,39 +15,49 @@ public class SpawnTest : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void OnNetworkSpawn()
     {
-        //if (!IsOwner) return;
-        //transform.position = new Vector3(Random.Range(0,1),0, Random.Range(0, 1));
+        if (!IsOwner) return;
+
+        spawnButton.onClick.RemoveAllListeners();
 
         if (NetworkManager.Singleton.IsServer)
         {
-            transform.position = new Vector3(0, 0, 0.5f);
-        } else {transform.position = new Vector3(0, 0, -0.5f); }
-
-        spawnButton.onClick.AddListener(OnSpawnButtonClicked);
+            //transform.position = new Vector3(0, 0, 0.5f);
+            spawnButton.onClick.AddListener(OnSpawnButtonClicked);
+        } else {
+            //transform.position = new Vector3(0, 0, -0.5f);
+            spawnButton.onClick.AddListener(OnClientSpawnButtonClicked);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
     void OnSpawnButtonClicked()
     {
-        if (IsOwner)
-        {
-            // You can customize index if you have multiple prefabs
-            TestSpawnServerRpc(spawnPosition, spawnRotation);
-        }
+        if (!IsOwner) return;
+ 
+        Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+        Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
+        TestSpawnServerRpc(_position, _rotation);
 
-        //TestSpawnServerRpc(spawnPosition, spawnRotation);
+    }
+
+    void OnClientSpawnButtonClicked()
+    {
+        if (!IsOwner) return;
+
+        Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+        Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
+        ClientTestSpawnServerRpc(_position, _rotation);
     }
 
     [ServerRpc]
     public void TestSpawnServerRpc(Vector3 position, Quaternion rotation)
     {
-        // GameObject spawnedPrefab = prefabList[index];
         var myPrefabTransform = Instantiate(testPrefab, position, rotation);
 
         if (myPrefabTransform != null)
@@ -55,4 +66,17 @@ public class SpawnTest : NetworkBehaviour
         }
     }
 
+
+    [ServerRpc]
+    public void ClientTestSpawnServerRpc(Vector3 position, Quaternion rotation)
+    {
+        var myPrefabTransform = Instantiate(clientTestPrefab, position, rotation);
+
+        if (myPrefabTransform != null)
+        {
+            myPrefabTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
+    }
+
 }
+

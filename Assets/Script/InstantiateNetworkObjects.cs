@@ -80,7 +80,7 @@ public class InstantiateNetworkObjects : NetworkBehaviour
                     // get the position of right cotroller
                     Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
                     Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
-                    ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation);
+                    ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation, NetworkManager.Singleton.LocalClientId);
                     clientMemesOn.Value = !clientMemesOn.Value;
                     clientCurrentIndex = (clientCurrentIndex + 1) % clientPrefabList.Count;
                 }
@@ -102,8 +102,6 @@ public class InstantiateNetworkObjects : NetworkBehaviour
                     Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
                     FaceSwapServerRpc(cameraAnchor.position, cameraAnchor.rotation);
 
-                    //faceSwapTransform.transform.localScale *= NetworkManager.Singleton.LocalClientId + 1;
-
                     faceOn.Value = !faceOn.Value;
                 }
                 else
@@ -114,17 +112,17 @@ public class InstantiateNetworkObjects : NetworkBehaviour
             }
             else
             {
-                if (faceOn.Value == false)
+                if (clientFaceOn.Value == false)
                 {
                     Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
                     ClientFaceSwapServerRpc(NetworkManager.Singleton.LocalClientId, cameraAnchor.position, cameraAnchor.rotation);
 
-                    faceOn.Value = !faceOn.Value;
+                    clientFaceOn.Value = !faceOn.Value;
                 }
                 else
                 {
                     ClientDespawnFaceSwapServerRpc();
-                    faceOn.Value = !faceOn.Value;
+                    clientFaceOn.Value = !faceOn.Value;
                 }
             }
         }
@@ -159,7 +157,7 @@ public class InstantiateNetworkObjects : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void ClientInstantiatePrefabServerRpc(int index, Vector3 position, Quaternion rotation)
+    public void ClientInstantiatePrefabServerRpc(int index, Vector3 position, Quaternion rotation, ulong clientId)
     {
 
         if (index < 0 || index >= clientPrefabList.Count) return;
@@ -169,7 +167,7 @@ public class InstantiateNetworkObjects : NetworkBehaviour
 
         if (clientPrefabTransform != null)
         {
-            clientPrefabTransform.GetComponent<NetworkObject>().Spawn(true);
+            clientPrefabTransform.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
         }
         else return;
     }
