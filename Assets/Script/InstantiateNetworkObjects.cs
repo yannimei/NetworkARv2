@@ -25,6 +25,9 @@ public class InstantiateNetworkObjects : NetworkBehaviour
 
     private int currentIndex = 0;
     private int clientCurrentIndex = 0;
+    
+    public GameObject clientInterfacePrefab;
+    public GameObject interfacePrefab;
 
     void Start()
     {
@@ -124,6 +127,23 @@ public class InstantiateNetworkObjects : NetworkBehaviour
                     ClientDespawnFaceSwapServerRpc();
                     clientFaceOn.Value = !faceOn.Value;
                 }
+            }
+        }
+
+        //spawn interface
+
+        if (OVRInput.GetDown(OVRInput.Button.Three))
+        {
+            if (NetworkManager.Singleton.IsServer)
+            {
+                
+               Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
+               InterfaceSpawnServerRpc(interfaceAnchor.position, interfaceAnchor.rotation);
+            }
+            else
+            {
+                Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
+                ClientInterfaceSpawnServerRpc(NetworkManager.Singleton.LocalClientId, interfaceAnchor.position, interfaceAnchor.rotation);
             }
         }
     }
@@ -229,6 +249,30 @@ public class InstantiateNetworkObjects : NetworkBehaviour
             //clientFaceSwapTransform.GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.ServerClientId);
             clientFaceSwapTransform.GetComponent<NetworkObject>().Despawn(true);
             clientFaceSwapTransform.SetActive(false);
+        }
+    }
+
+
+    //face swap
+    [ServerRpc]
+    public void InterfaceSpawnServerRpc(Vector3 _position, Quaternion _rotation)
+    {
+        var interfaceTransform = Instantiate(interfacePrefab, _position, _rotation);
+
+        if (interfaceTransform != null)
+        {
+            interfaceTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
+    }
+
+    [ServerRpc]
+    public void ClientInterfaceSpawnServerRpc(ulong clientId, Vector3 position, Quaternion rotation)
+    {
+        var interfaceTransform = Instantiate(clientInterfacePrefab, position, rotation);
+
+        if (interfaceTransform != null)
+        {
+            interfaceTransform.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
         }
     }
 }

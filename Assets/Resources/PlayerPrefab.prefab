@@ -388,11 +388,13 @@ MonoBehaviour:
   clientFaceOn:
     m_InternalValue: 0
   prefabList:
-  - {fileID: 5809250325476735610, guid: 4f6044b657ea8f449bb85c07f5efae71, type: 3}
+  - {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
   - {fileID: 1221499880570116155, guid: d077edee4b617814d8be559e64b2d006, type: 3}
   clientPrefabList:
-  - {fileID: 5809250325476735610, guid: ef1781d27d41075418ad7dcf51e71875, type: 3}
+  - {fileID: 8933135977977695256, guid: 5ec4279fa40149943b3a702aaf254007, type: 3}
   - {fileID: 6008686459198496272, guid: bfa272bb1e67ea345b3ad11580d8b43a, type: 3}
+  clientInterfacePrefab: {fileID: 5809250325476735610, guid: 3351fa6fd516b864b85fde9ab59c7b58, type: 3}
+  interfacePrefab: {fileID: 5809250325476735610, guid: 4f6044b657ea8f449bb85c07f5efae71, type: 3}
 --- !u!114 &-6432761373060259912
 MonoBehaviour:
   m_ObjectHideFlags: 0

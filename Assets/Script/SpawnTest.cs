@@ -49,11 +49,12 @@ public class SpawnTest : NetworkBehaviour
     void OnClientSpawnButtonClicked()
     {
         if (!IsOwner) return;
-
         Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
         Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
         ClientTestSpawnServerRpc(_position, _rotation);
     }
+
+
 
     [ServerRpc]
     public void TestSpawnServerRpc(Vector3 position, Quaternion rotation)
@@ -77,6 +78,5 @@ public class SpawnTest : NetworkBehaviour
             myPrefabTransform.GetComponent<NetworkObject>().Spawn(true);
         }
     }
-
 }
 
