@@ -18,6 +18,8 @@ public class InstantiateNetworkObjects : NetworkBehaviour
     [SerializeField] private NetworkVariable<bool> faceOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private NetworkVariable<bool> clientMemesOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private NetworkVariable<bool> clientFaceOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] private NetworkVariable<bool> uIOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] private NetworkVariable<bool> clientUIOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
 
     [SerializeField] public List<GameObject> prefabList; //prefab list for host
@@ -136,14 +138,23 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         {
             if (NetworkManager.Singleton.IsServer)
             {
-                
-               Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
-               InterfaceSpawnServerRpc(interfaceAnchor.position, interfaceAnchor.rotation);
+                if (!uIOn.Value)
+                {
+                    Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
+                    InterfaceSpawnServerRpc(interfaceAnchor.position, interfaceAnchor.rotation);
+                    uIOn.Value = !uIOn.Value;
+                }
+                else return;
             }
             else
             {
-                Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
-                ClientInterfaceSpawnServerRpc(NetworkManager.Singleton.LocalClientId, interfaceAnchor.position, interfaceAnchor.rotation);
+                if (!clientUIOn.Value)
+                {
+                    Transform interfaceAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Interface").transform;
+                    ClientInterfaceSpawnServerRpc(NetworkManager.Singleton.LocalClientId, interfaceAnchor.position, interfaceAnchor.rotation);
+                    clientUIOn.Value = !clientUIOn.Value;
+                }
+                else return;
             }
         }
     }
