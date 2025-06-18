@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: -810809782688646820}
   - component: {fileID: 8151141808751216401}
   - component: {fileID: -1950584997157682332}
+  - component: {fileID: -8331135898289701823}
   m_Layer: 5
   m_Name: NetworkCanvasClient
   m_TagString: Untagged
@@ -651,7 +652,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4891683213582478693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,6 +757,19 @@ MonoBehaviour:
   testPrefab: {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
   clientTestPrefab: {fileID: 8213551965240709433, guid: b9f5af3014d1ed745846dd15a940de0b, type: 3}
   spawnButton: {fileID: 7789560161068939312}
+--- !u!114 &-8331135898289701823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809250325476735610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c4e4c233b2d1d40a24fdcf02aad0d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &6804541946728967655
 GameObject:
   m_ObjectHideFlags: 0
