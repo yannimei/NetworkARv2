@@ -51,17 +51,7 @@ public class SpawnTest : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (OVRInput.GetDown(OVRInput.Button.One))
-        //{
-        //    if (NetworkManager.Singleton.IsServer)
-        //    {
-        //        DepawnServerRpc();
-        //    }
-        //    else
-        //    {
-        //        ClientDepawnServerRpc();
-        //    }
-        //}
+
     }
 
 
