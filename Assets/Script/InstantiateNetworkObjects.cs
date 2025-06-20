@@ -50,87 +50,87 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         // only the owner can call function, other then host will control client
         if (!IsOwner) return;
 
-        if (OVRInput.GetDown(OVRInput.Button.Two))
-        {
-            if (NetworkManager.Singleton.IsServer) //if the user is the host
-            {
-                if (memesOn.Value == false)
-                {
-                    // get the position of right cotroller
-                    //Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
-                    //Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
-                    Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
-                    Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
+        //if (OVRInput.GetDown(OVRInput.Button.Two))
+        //{
+        //    if (NetworkManager.Singleton.IsServer) //if the user is the host
+        //    {
+        //        if (memesOn.Value == false)
+        //        {
+        //            // get the position of right cotroller
+        //            //Vector3 _position = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
+        //            //Quaternion _rotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+        //            Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+        //            Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
 
-                    // instantiate network gameobject
-                    InstantiatePrefabServerRpc(currentIndex, _position, _rotation);
+        //            // instantiate network gameobject
+        //            InstantiatePrefabServerRpc(currentIndex, _position, _rotation);
 
-                    // update memes situation
-                    memesOn.Value = !memesOn.Value;
+        //            // update memes situation
+        //            memesOn.Value = !memesOn.Value;
 
-                    // Advance and wrap index locally
-                    currentIndex = (currentIndex + 1) % prefabList.Count;
-                }
-                else // the user is client
-                {
-                    DespawnPrefabServerRpc();
+        //            // Advance and wrap index locally
+        //            currentIndex = (currentIndex + 1) % prefabList.Count;
+        //        }
+        //        else // the user is client
+        //        {
+        //            DespawnPrefabServerRpc();
 
-                    // update memes situation
-                    memesOn.Value = !memesOn.Value;
-                }
-            } else
-            {
-                if (clientMemesOn.Value == false)
-                {
-                    // get the position of right cotroller
-                    Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
-                    Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
-                    ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation, NetworkManager.Singleton.LocalClientId);
-                    clientMemesOn.Value = !clientMemesOn.Value;
-                    clientCurrentIndex = (clientCurrentIndex + 1) % clientPrefabList.Count;
-                }
-                else
-                {
-                    ClientDespawnPrefabServerRpc();
-                    clientMemesOn.Value = !clientMemesOn.Value;
-                }
-            }
-            
-        }
+        //            // update memes situation
+        //            memesOn.Value = !memesOn.Value;
+        //        }
+        //    } else
+        //    {
+        //        if (clientMemesOn.Value == false)
+        //        {
+        //            // get the position of right cotroller
+        //            Vector3 _position = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.position;
+        //            Quaternion _rotation = GameObject.Find("CameraRig/TrackingSpace/RightHandAnchor").transform.rotation;
+        //            ClientInstantiatePrefabServerRpc(clientCurrentIndex, _position, _rotation, NetworkManager.Singleton.LocalClientId);
+        //            clientMemesOn.Value = !clientMemesOn.Value;
+        //            clientCurrentIndex = (clientCurrentIndex + 1) % clientPrefabList.Count;
+        //        }
+        //        else
+        //        {
+        //            ClientDespawnPrefabServerRpc();
+        //            clientMemesOn.Value = !clientMemesOn.Value;
+        //        }
+        //    }
+        //}
 
-        if (OVRInput.GetDown(OVRInput.Button.One))
-        {
-            if (NetworkManager.Singleton.IsServer)
-            {
-                if (faceOn.Value == false)
-                {
-                    Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
-                    FaceSwapServerRpc(cameraAnchor.position, cameraAnchor.rotation);
+        //face swapping
+        //if (OVRInput.GetDown(OVRInput.Button.One))
+        //{
+        //    if (NetworkManager.Singleton.IsServer)
+        //    {
+        //        if (faceOn.Value == false)
+        //        {
+        //            Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+        //            FaceSwapServerRpc(cameraAnchor.position, cameraAnchor.rotation);
 
-                    faceOn.Value = !faceOn.Value;
-                }
-                else
-                {
-                    DespawnFaceSwapServerRpc();
-                    faceOn.Value = !faceOn.Value;
-                }
-            }
-            else
-            {
-                if (clientFaceOn.Value == false)
-                {
-                    Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
-                    ClientFaceSwapServerRpc(NetworkManager.Singleton.LocalClientId, cameraAnchor.position, cameraAnchor.rotation);
+        //            faceOn.Value = !faceOn.Value;
+        //        }
+        //        else
+        //        {
+        //            DespawnFaceSwapServerRpc();
+        //            faceOn.Value = !faceOn.Value;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (clientFaceOn.Value == false)
+        //        {
+        //            Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+        //            ClientFaceSwapServerRpc(NetworkManager.Singleton.LocalClientId, cameraAnchor.position, cameraAnchor.rotation);
 
-                    clientFaceOn.Value = !faceOn.Value;
-                }
-                else
-                {
-                    ClientDespawnFaceSwapServerRpc();
-                    clientFaceOn.Value = !faceOn.Value;
-                }
-            }
-        }
+        //            clientFaceOn.Value = !faceOn.Value;
+        //        }
+        //        else
+        //        {
+        //            ClientDespawnFaceSwapServerRpc();
+        //            clientFaceOn.Value = !faceOn.Value;
+        //        }
+        //    }
+        //}
 
         //spawn interface
 
@@ -266,7 +266,7 @@ public class InstantiateNetworkObjects : NetworkBehaviour
 
     //face swap
     [ServerRpc]
-    public void InterfaceSpawnServerRpc(Vector3 _position, Quaternion _rotation)
+    private void InterfaceSpawnServerRpc(Vector3 _position, Quaternion _rotation)
     {
         var interfaceTransform = Instantiate(interfacePrefab, _position, _rotation);
 
@@ -277,7 +277,7 @@ public class InstantiateNetworkObjects : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void ClientInterfaceSpawnServerRpc(ulong clientId, Vector3 position, Quaternion rotation)
+    private void ClientInterfaceSpawnServerRpc(ulong clientId, Vector3 position, Quaternion rotation)
     {
         var interfaceTransform = Instantiate(clientInterfacePrefab, position, rotation);
 

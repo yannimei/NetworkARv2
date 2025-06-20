@@ -387,6 +387,10 @@ MonoBehaviour:
     m_InternalValue: 0
   clientFaceOn:
     m_InternalValue: 0
+  uIOn:
+    m_InternalValue: 0
+  clientUIOn:
+    m_InternalValue: 0
   prefabList:
   - {fileID: 3998068895720143547, guid: f0cea681a7bb49f4fbd29f75b2c76a1b, type: 3}
   - {fileID: 1221499880570116155, guid: d077edee4b617814d8be559e64b2d006, type: 3}
@@ -603,7 +607,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ec57de5f372aace42a4f8de1eb165523, type: 2}
+  - {fileID: 2100000, guid: 5d26ad9c1b487864f89d3d6cc0a6e1c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
