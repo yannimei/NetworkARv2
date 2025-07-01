@@ -132,6 +132,54 @@ public class InstantiateNetworkObjects : NetworkBehaviour
         //    }
         //}
 
+
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            if (NetworkManager.Singleton.IsServer)
+            {
+                if (faceOn.Value == false)
+                {
+                    Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+                    FaceSwapServerRpc(cameraAnchor.position, cameraAnchor.rotation);
+
+                    Transform objAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Background").transform;
+                    InstantiatePrefabServerRpc(0, objAnchor.position, objAnchor.rotation);
+
+                    faceOn.Value = !faceOn.Value;
+                }
+                else
+                {
+                    DespawnFaceSwapServerRpc();
+                    DespawnPrefabServerRpc();
+                    faceOn.Value = !faceOn.Value;
+
+                    
+                }
+            }
+            else
+            {
+                if (clientFaceOn.Value == false)
+                {
+                    Transform cameraAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Face").transform;
+                    ClientFaceSwapServerRpc(NetworkManager.Singleton.LocalClientId, cameraAnchor.position, cameraAnchor.rotation);
+
+                    Transform objAnchor = GameObject.Find("CameraRig/TrackingSpace/CenterEyeAnchor/Background").transform;
+                    ClientInstantiatePrefabServerRpc(0, objAnchor.position, objAnchor.rotation, NetworkManager.Singleton.LocalClientId);
+
+                    clientFaceOn.Value = !faceOn.Value;
+                }
+                else
+                {
+                    ClientDespawnFaceSwapServerRpc();
+                    DespawnPrefabServerRpc();
+
+                    clientFaceOn.Value = !faceOn.Value;
+
+                   
+                }
+            }
+        }
+
         //spawn interface
 
         if (OVRInput.GetDown(OVRInput.Button.Three))
