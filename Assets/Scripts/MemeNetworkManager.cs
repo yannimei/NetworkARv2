@@ -12,6 +12,9 @@ public class MemeNetworkManager : NetworkBehaviour
     private readonly Dictionary<ulong, GameObject> playerMemes = new();
     private readonly Dictionary<ulong, int> playerMemeIndices = new();
 
+    // Server-side meme state storage: playerId -> memeIndex -> state
+    private readonly Dictionary<int, Dictionary<int, MemeObjectHandler.MemeObjectState>> memeStates = new();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -109,16 +112,8 @@ public class MemeNetworkManager : NetworkBehaviour
         else
             logger.Log("mRUK or FloorAnchor is null on server!", true, nameof(MemeNetworkManager));
         
-        bool loaded = handlerNew.LoadStateWithResult();
-        if (!loaded)
-        {
-            logger.Log($"No saved state found for memeIndex={memeIndex}, using menu position.", true, nameof(MemeNetworkManager));
-            obj.transform.SetPositionAndRotation(menuPosition, menuRotation);
-        }
-        else
-        {
-            logger.Log($"Loaded saved state for memeIndex={memeIndex}.", true, nameof(MemeNetworkManager));
-        }
+        handlerNew.RequestLoadState();
+        logger.Log($"Requested meme state load for playerId={playerId}, memeIndex={memeIndex}.", true, nameof(MemeNetworkManager));
 
         if (obj.TryGetComponent<MemePlacement>(out var placement))
         {
@@ -184,5 +179,24 @@ public class MemeNetworkManager : NetworkBehaviour
             playerMemes[clientId] = null;
             playerMemeIndices[clientId] = -1;
         }
+    }
+
+    public void SaveMemeStateServer(int playerId, int memeIndex, MemeObjectHandler.MemeObjectState state)
+    {
+        if (!memeStates.ContainsKey(playerId))
+            memeStates[playerId] = new Dictionary<int, MemeObjectHandler.MemeObjectState>();
+        memeStates[playerId][memeIndex] = state;
+        logger.Log($"[Server] Saved meme state for playerId={playerId}, memeIndex={memeIndex}", true, nameof(MemeNetworkManager));
+    }
+
+    public MemeObjectHandler.MemeObjectState GetMemeStateServer(int playerId, int memeIndex)
+    {
+        if (memeStates.TryGetValue(playerId, out var playerStates) && playerStates.TryGetValue(memeIndex, out var state))
+        {
+            logger.Log($"[Server] Loaded meme state for playerId={playerId}, memeIndex={memeIndex}", true, nameof(MemeNetworkManager));
+            return state;
+        }
+        logger.Log($"[Server] No meme state found for playerId={playerId}, memeIndex={memeIndex}", true, nameof(MemeNetworkManager));
+        return null;
     }
 }

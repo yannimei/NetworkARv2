@@ -43,6 +43,24 @@ public class MemeMenu : MonoBehaviour
         memeButtons.Clear();
 
         Texture2D[] textures = Resources.LoadAll<Texture2D>(playerMemePath);
+        System.Array.Sort(textures, (a, b) =>
+        {
+          static int GetMemeNumber(Texture2D tex)
+            {
+                string name = tex.name;
+                // Extract number after 'Meme'
+                int idx = name.IndexOf("Meme");
+                if (idx >= 0)
+                {
+                    string numPart = name.Substring(idx + 4);
+                    if (int.TryParse(numPart, out int num))
+                        return num;
+                }
+                return 0;
+            }
+            return GetMemeNumber(a).CompareTo(GetMemeNumber(b));
+        });
+        
         for (int i = 0; i < textures.Length && textures[i].name.StartsWith("Meme"); i++)
         {
             logger.Log($"Creating meme button {i}: {textures[i].name}", true, nameof(MemeMenu));
