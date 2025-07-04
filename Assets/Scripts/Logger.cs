@@ -48,13 +48,21 @@ public class Logger : NetworkBehaviour
 
     private void WriteLog(string formattedMessage)
     {
+        string prefix = string.Empty;
+        if (NetworkManager.Singleton != null)
+        {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                prefix = "[HOST] ";
+            }
+        }
         if (logToConsole)
         {
-            Debug.Log(formattedMessage);
+            Debug.Log(prefix + formattedMessage);
         }
         if (logToFile)
         {
-            System.IO.File.AppendAllText(logFilePath, formattedMessage + "\n");
+            System.IO.File.AppendAllText(logFilePath, prefix + formattedMessage + "\n");
         }
     }
 
