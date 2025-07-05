@@ -32,26 +32,25 @@ public class MemeObjectHandler : NetworkBehaviour
     public void Init(int index, string prefab, int playerId)
     {
         memeIndex = index;
-        prefabName = prefab;
+        this.prefabName = prefab;
         this.playerId = playerId;
     }
 
     public void SaveState()
     {
-        MemeObjectState state = new()
+        // Only save state for world mode
+        if (TryGetComponent<MemePlacement>(out var placement) && placement.placementMode != MemePlacement.PlacementMode.World)
         {
-            prefabName = prefabName,
-            localPosition = anchorTransform ? anchorTransform.InverseTransformPoint(transform.position) : transform.position,
-            localRotation = anchorTransform ? Quaternion.Inverse(anchorTransform.rotation) * transform.rotation : transform.rotation,
-            scale = transform.localScale,
-            memeIndex = memeIndex
-        };
-        MemeNetworkManager.Instance.SaveMemeStateServer(playerId, memeIndex, state);
+            logger.Log("[MemeObjectHandler] Skipping SaveState for non-world mode.");
+            return;
+        }
+        MemeObjectState state = CreateCurrentState();
+        SaveStateInternal(state);
     }
 
-    public void SaveStateNetworked()
+    private MemeObjectState CreateCurrentState()
     {
-        MemeObjectState state = new()
+        return new MemeObjectState
         {
             prefabName = prefabName,
             localPosition = anchorTransform ? anchorTransform.InverseTransformPoint(transform.position) : transform.position,
@@ -59,6 +58,10 @@ public class MemeObjectHandler : NetworkBehaviour
             scale = transform.localScale,
             memeIndex = memeIndex
         };
+    }
+
+    private void SaveStateInternal(MemeObjectState state)
+    {
         if (IsServer)
         {
             MemeNetworkManager.Instance.SaveMemeStateServer(playerId, memeIndex, state);
@@ -109,10 +112,10 @@ public class MemeObjectHandler : NetworkBehaviour
     private void ApplyState(MemeObjectState state)
     {
         logger.Log($"[MemeObjectHandler] ApplyState called for playerId={playerId}, memeIndex={memeIndex}, state null? {state == null}");
-        if (TryGetComponent<MemePlacement>(out var placement) && placement.placementMode == MemePlacement.PlacementMode.Face)
+        // Only apply state for world mode
+        if (TryGetComponent<MemePlacement>(out var placement) && placement.placementMode != MemePlacement.PlacementMode.World)
         {
-            logger.Log($"[MemeObjectHandler] Skipping transform apply for face mode.");
-            ApplyDefaultPlacement();
+            logger.Log("[MemeObjectHandler] Skipping state apply for non-world mode.");
             return;
         }
         if (state != null)
@@ -137,37 +140,8 @@ public class MemeObjectHandler : NetworkBehaviour
         }
         else
         {
-            logger.Log($"[MemeObjectHandler] No state found, using default placement.");
-            ApplyDefaultPlacement();
+            logger.Log($"[MemeObjectHandler] No state found.");
         }
-    }
-
-    private void ApplyDefaultPlacement()
-    {
-        if (TryGetComponent<MemePlacement>(out var placement))
-        {
-            if (placement.placementMode == MemePlacement.PlacementMode.Face)
-            {
-                // Face mode: MemePlacement will handle positioning in Start()
-            }
-            else
-            {
-                // World mode: place at current transform (already set by MemeNetworkManager)
-            }
-        }
-        // Optionally, add more logic for other placement modes
-    }
-
-    // OnMouseUpAsButton is called on release; ensure state is saved
-    private void OnMouseUpAsButton()
-    {
-        SaveStateNetworked();
-    }
-
-    // Optionally, add a public method to be called from other interaction scripts on release
-    public void OnReleased()
-    {
-        SaveStateNetworked();
     }
 
     public void SetLogger(Logger logger)
@@ -175,12 +149,31 @@ public class MemeObjectHandler : NetworkBehaviour
         this.logger = logger;
     }
 
+    private void OnMouseUpAsButton()
+    {
+        SaveState();
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        logger = MemeNetworkManager.Instance != null ? MemeNetworkManager.Instance.logger : null;
         if (!IsServer)
         {
             RequestLoadState();
+        }
+        // Attach to face anchor if in Face mode
+        if (TryGetComponent<MemePlacement>(out var placement) && placement.placementMode == MemePlacement.PlacementMode.Face)
+        {
+            var faceAnchor = placement.AttachToFaceAnchor();
+            if (faceAnchor != null)
+            {
+                anchorTransform = faceAnchor;
+            }
+            else
+            {
+                logger.Log("[MemeObjectHandler] Face anchor not found on spawn.");
+            }
         }
     }
 }

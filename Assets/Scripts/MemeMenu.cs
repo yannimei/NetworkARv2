@@ -43,6 +43,8 @@ public class MemeMenu : MonoBehaviour
         memeButtons.Clear();
 
         Texture2D[] textures = Resources.LoadAll<Texture2D>(playerMemePath);
+
+        // sort textures by their meme number to fix the lexicographical order issue
         System.Array.Sort(textures, (a, b) =>
         {
           static int GetMemeNumber(Texture2D tex)
@@ -52,7 +54,7 @@ public class MemeMenu : MonoBehaviour
                 int idx = name.IndexOf("Meme");
                 if (idx >= 0)
                 {
-                    string numPart = name.Substring(idx + 4);
+                    string numPart = name[(idx + 4)..];
                     if (int.TryParse(numPart, out int num))
                         return num;
                 }
@@ -78,6 +80,7 @@ public class MemeMenu : MonoBehaviour
             }
         }
 
+        // Force layout rebuild to ensure interaction surfaces are correctly sized after expanding the menu
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 

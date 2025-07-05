@@ -5,28 +5,28 @@ public class MemePlacement : NetworkBehaviour
 {
     public enum PlacementMode { World, Face }
     public PlacementMode placementMode = PlacementMode.World;
-    private Logger logger;
 
-    void Start()
+    public void AttachToAnchor(Transform anchorTransform)
     {
-        if (placementMode == PlacementMode.Face)
+        if (anchorTransform != null)
         {
-            // find object in scene with name "FacePosition"
-            Transform facePosition = GameObject.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor/FacePosition").transform;
-            if (facePosition != null)
-            {
-                transform.SetParent(facePosition);
-                transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            }
-            else
-            {
-                logger.Log("FacePosition not found in scene.", true, nameof(MemePlacement));
-            }
+            transform.SetParent(anchorTransform, false);
+            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
     }
-    
-    public void SetLogger(Logger logger)
+
+    public void DetachFromAnchor()
     {
-        this.logger = logger;
+        transform.SetParent(null, false);
+    }
+
+    public Transform AttachToFaceAnchor()
+    {
+        var faceAnchor = GameObject.FindGameObjectWithTag("Face");
+        if (faceAnchor != null)
+        {
+            AttachToAnchor(faceAnchor.transform);
+        }
+        return faceAnchor != null ? faceAnchor.transform : null;
     }
 }
