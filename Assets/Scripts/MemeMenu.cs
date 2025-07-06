@@ -26,11 +26,11 @@ public class MemeMenu : MonoBehaviour
     private void SetPlayerMemePath()
     {
         int playerId = PlayerIdManager.Instance.PlayerId;
-        logger.Log($"Setting player meme path for player ID: {playerId}", true, nameof(MemeMenu));
+        logger.LogDebug($"Setting player meme path for player ID: {playerId}", nameof(MemeMenu));
         if (playerId > 0 && playerId < 100)
         {
             playerMemePath = memePath + $"{playerId}/MenuPreview";
-            logger.Log($"Player meme path set to: {playerMemePath}", true, nameof(MemeMenu));
+            logger.LogDebug($"Player meme path set to: {playerMemePath}", nameof(MemeMenu));
         }
         else
             playerMemePath = "";
@@ -65,7 +65,7 @@ public class MemeMenu : MonoBehaviour
         
         for (int i = 0; i < textures.Length && textures[i].name.StartsWith("Meme"); i++)
         {
-            logger.Log($"Creating meme button {i}: {textures[i].name}", true, nameof(MemeMenu));
+            logger.LogDebug($"Creating meme button {i}: {textures[i].name}", nameof(MemeMenu));
             var buttonObj = Instantiate(memeButtonPrefab, memeButtonsContainer.transform);
             var btn = buttonObj.GetComponent<Button>();
             var rawImage = buttonObj.GetComponentInChildren<RawImage>();
@@ -87,15 +87,15 @@ public class MemeMenu : MonoBehaviour
     private void OnMemeButtonClicked(int index)
     {
         int playerId = PlayerIdManager.Instance.PlayerId;
-        logger.Log($"Meme button {index} clicked by player: {playerId}", true, nameof(MemeMenu));
+        logger.LogInfo($"Meme button {index} clicked by player: {playerId}", nameof(MemeMenu));
         try
         {
             MemeNetworkManager.RequestSpawnMeme(memePath, index, playerId, transform.position, transform.rotation);
-            logger.Log($"RequestSpawnMeme succeeded for index {index}", true, nameof(MemeMenu));
+            logger.LogDebug($"RequestSpawnMeme succeeded for index {index}", nameof(MemeMenu));
         }
         catch (System.Exception ex)
         {
-            logger.Log($"Exception in RequestSpawnMeme: {ex}", true, nameof(MemeMenu));
+            logger.LogError($"Exception in RequestSpawnMeme: {ex}", nameof(MemeMenu));
         }
     }
 
@@ -104,11 +104,11 @@ public class MemeMenu : MonoBehaviour
         try
         {
             MemeNetworkManager.RequestCloseCurrentMeme();
-            logger.Log("CloseCurrentMeme called: current meme saved and removed.", true, nameof(MemeMenu));
+            logger.LogInfo("CloseCurrentMeme called: current meme saved and removed.", nameof(MemeMenu));
         }
         catch (System.Exception ex)
         {
-            logger.Log($"Exception in RequestCloseCurrentMeme: {ex}", true, nameof(MemeMenu));
+            logger.LogError($"Exception in RequestCloseCurrentMeme: {ex}", nameof(MemeMenu));
         }
     }
 }

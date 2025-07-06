@@ -50,24 +50,24 @@ public class PlayerIdManager : MonoBehaviour
 
             if (id == 0)
             {
-                logger.Log("Player ID is set to 0, player will be recognized as a spectator.", true, nameof(PlayerIdManager));
+                logger.LogInfo("Player ID is set to 0, player will be recognized as a spectator.", nameof(PlayerIdManager));
                 return;
             }
 
-            logger.Log($"Player ID set to: {PlayerId}", true, nameof(PlayerIdManager));
+            logger.LogInfo($"Player ID set to: {PlayerId}", nameof(PlayerIdManager));
             if (MemeMenuCanvas != null)
             {
                 MemeMenuCanvas.gameObject.SetActive(true);
             }
             else
             {
-                logger.Log("MemeMenuCanvas is not assigned in PlayerIdManager.", true, nameof(PlayerIdManager));
+                logger.LogError("MemeMenuCanvas is not assigned in PlayerIdManager.", nameof(PlayerIdManager));
             }
         }
         else
         {
             idInputField.text = "";
-            logger.Log("Invalid Player ID. Please enter a number between 1 and 100.", true, nameof(PlayerIdManager));
+            logger.LogWarning("Invalid Player ID. Please enter a number between 1 and 100.", nameof(PlayerIdManager));
         }
     }
 

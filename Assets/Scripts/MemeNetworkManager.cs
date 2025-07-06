@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
@@ -13,6 +14,18 @@ public class MemeNetworkManager : NetworkBehaviour
     private readonly Dictionary<ulong, GameObject> playerMemes = new();
     private readonly Dictionary<ulong, int> playerMemeIndices = new();
 
+    // --- Face meme tracking ---
+    private readonly List<MemeObjectHandler> faceMemes = new();
+    public void RegisterFaceMeme(MemeObjectHandler handler)
+    {
+        if (!faceMemes.Contains(handler))
+            faceMemes.Add(handler);
+    }
+    public void UnregisterFaceMeme(MemeObjectHandler handler)
+    {
+        faceMemes.Remove(handler);
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,17 +38,17 @@ public class MemeNetworkManager : NetworkBehaviour
 
     public void RequestSpawnMeme(string memePath, int memeIndex, int playerId, Vector3 menuPosition, Quaternion menuRotation)
     {
-        logger.Log($"RequestSpawnMeme called. memePath={memePath}, memeIndex={memeIndex}, playerId={playerId}, isServer={NetworkManager.Singleton.IsServer}", true, nameof(MemeNetworkManager));
+        logger.LogDebug($"RequestSpawnMeme called. memePath={memePath}, memeIndex={memeIndex}, playerId={playerId}, isServer={NetworkManager.Singleton.IsServer}", nameof(MemeNetworkManager));
         ulong localClientId = NetworkManager.Singleton.LocalClientId;
 
         if (NetworkManager.Singleton.IsServer)
         {
-            logger.Log($"Calling SpawnMeme directly on server.", true, nameof(MemeNetworkManager));
+            logger.LogDebug($"Calling SpawnMeme directly on server.", nameof(MemeNetworkManager));
             SpawnMeme(memePath, memeIndex, playerId, menuPosition, menuRotation, localClientId);
         }
         else
         {
-            logger.Log($"Calling SpawnMemeServerRpc from client.", true, nameof(MemeNetworkManager));
+            logger.LogDebug($"Calling SpawnMemeServerRpc from client.", nameof(MemeNetworkManager));
             SpawnMemeServerRpc(memePath, memeIndex, playerId, menuPosition, menuRotation);
         }
     }
@@ -43,7 +56,7 @@ public class MemeNetworkManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SpawnMemeServerRpc(string memePath, int memeIndex, int playerId, Vector3 menuPosition, Quaternion menuRotation, ServerRpcParams rpcParams = default)
     {
-        logger.Log($"SpawnMemeServerRpc received from clientId={rpcParams.Receive.SenderClientId}", true, nameof(MemeNetworkManager));
+        logger.LogDebug($"SpawnMemeServerRpc received from clientId={rpcParams.Receive.SenderClientId}", nameof(MemeNetworkManager));
 
         ulong ownerClientId = rpcParams.Receive.SenderClientId;
         SpawnMeme(memePath, memeIndex, playerId, menuPosition, menuRotation, ownerClientId);
@@ -51,106 +64,167 @@ public class MemeNetworkManager : NetworkBehaviour
 
     private void RemovePreviousMeme(ulong clientId)
     {
-        if (playerMemes.TryGetValue(clientId, out var currentPlayerMeme) && currentPlayerMeme != null)
+        if (!playerMemes.TryGetValue(clientId, out var currentPlayerMeme) || currentPlayerMeme == null)
         {
-            logger.Log($"[Server] Removing previous meme for clientId={clientId}", true, nameof(MemeNetworkManager));
-            if (currentPlayerMeme.TryGetComponent<MemeObjectHandler>(out var handler))
-            {
-                handler.SaveState();
-            }
-            if (currentPlayerMeme.TryGetComponent<NetworkObject>(out var netObjToRemove))
-            {
-                if (netObjToRemove.IsOwner || NetworkManager.Singleton.IsServer)
-                    netObjToRemove.Despawn(true);
-            }
-            else
-            {
-                Destroy(currentPlayerMeme);
-            }
-            playerMemes[clientId] = null;
-            playerMemeIndices[clientId] = -1;
+            logger.LogDebug($"[RemovePreviousMeme] No previous meme for clientId={clientId}", nameof(MemeNetworkManager));
+            return;
         }
+        logger.LogDebug($"[RemovePreviousMeme] Removing meme for clientId={clientId}, memeName={currentPlayerMeme.name}, instanceID={currentPlayerMeme.GetInstanceID()}", nameof(MemeNetworkManager));
+        if (currentPlayerMeme.TryGetComponent<MemeObjectHandler>(out var handler))
+        {
+            logger.LogDebug($"[RemovePreviousMeme] Calling SaveState on meme instanceID={currentPlayerMeme.GetInstanceID()}", nameof(MemeNetworkManager));
+            handler.SaveState();
+        }
+        if (currentPlayerMeme.TryGetComponent<NetworkObject>(out var netObjToRemove))
+        {
+            logger.LogDebug($"[RemovePreviousMeme] Despawning NetworkObject instanceID={currentPlayerMeme.GetInstanceID()}, IsOwner={netObjToRemove.IsOwner}, IsServer={NetworkManager.Singleton.IsServer}", nameof(MemeNetworkManager));
+            if (netObjToRemove.IsOwner || NetworkManager.Singleton.IsServer)
+                netObjToRemove.Despawn(true);
+        }
+        else
+        {
+            logger.LogDebug($"[RemovePreviousMeme] Destroying meme GameObject instanceID={currentPlayerMeme.GetInstanceID()} (no NetworkObject)", nameof(MemeNetworkManager));
+            Destroy(currentPlayerMeme);
+        }
+        playerMemes[clientId] = null;
+        playerMemeIndices[clientId] = -1;
+        logger.LogDebug($"[RemovePreviousMeme] playerMemes[{clientId}] set to null", nameof(MemeNetworkManager));
     }
 
     private void RegisterMeme(ulong clientId, GameObject obj, int memeIndex)
     {
+        logger.LogDebug($"[RegisterMeme] Registering meme for clientId={clientId}, memeName={obj.name}, instanceID={obj.GetInstanceID()}, memeIndex={memeIndex}", nameof(MemeNetworkManager));
         playerMemes[clientId] = obj;
         playerMemeIndices[clientId] = memeIndex;
+        logger.LogDebug($"[RegisterMeme] playerMemes[{clientId}] now instanceID={obj.GetInstanceID()}", nameof(MemeNetworkManager));
     }
 
     private void SpawnMeme(string memePath, int memeIndex, int playerId, Vector3 menuPosition, Quaternion menuRotation, ulong? ownerClientId = null)
     {
+        logger.LogDebug($"SpawnMeme called with memePath={memePath}, memeIndex={memeIndex}, playerId={playerId}, ownerClientId={ownerClientId}", nameof(MemeNetworkManager));
         if (ownerClientId.HasValue)
             RemovePreviousMeme(ownerClientId.Value);
 
-        logger.Log($"SpawnMeme called. memePath={memePath}, memeIndex={memeIndex}, playerId={playerId}, ownerClientId={ownerClientId}", true, nameof(MemeNetworkManager));
         string prefabPath = $"{memePath}{playerId}/Meme{memeIndex + 1}";
         var prefab = Resources.Load<GameObject>(prefabPath);
 
         if (prefab == null)
         {
-            logger.Log($"Prefab not found at {prefabPath}", true, nameof(MemeNetworkManager));
+            logger.LogError($"Prefab not found at {prefabPath}", nameof(MemeNetworkManager));
             return;
         }
 
-        MemePlacement memePlacement = prefab.GetComponent<MemePlacement>();
-        bool isWorldMode = memePlacement == null || memePlacement.placementMode == MemePlacement.PlacementMode.World;
+        MemeObjectHandler.PlacementMode placementMode = MemeObjectHandler.GetPlacementMode(prefab);
+        bool isWorldMode = placementMode == MemeObjectHandler.PlacementMode.World;
 
-        MemeObjectHandler.MemeObjectState state = null;
+        // Track if state was loaded from disk
+        bool loadedFromDisk = false;
+        MemeObjectHandler.MemeObjectState? state = null;
+        Transform anchor = (mRUK != null && mRUK.GetCurrentRoom() != null && mRUK.GetCurrentRoom().FloorAnchor != null)
+            ? mRUK.GetCurrentRoom().FloorAnchor.transform : null;
         if (isWorldMode)
         {
-            state = GetMemeStateServer(playerId, memeIndex);
+            var loadedState = GetMemeStateServer(playerId, memeIndex);
+            if (loadedState.HasValue)
+            {
+                state = loadedState;
+                loadedFromDisk = true;
+            }
+            else
+            {
+                // Create a default state for world mode if none exists, using menu position/rotation
+                state = new MemeObjectHandler.MemeObjectState
+                {
+                    prefabName = $"Meme{memeIndex + 1}",
+                    localPosition = anchor ? anchor.InverseTransformPoint(menuPosition) : menuPosition,
+                    localRotation = anchor ? Quaternion.Inverse(anchor.rotation) * menuRotation : menuRotation,
+                    scale = prefab.transform.localScale,
+                    memeIndex = memeIndex,
+                    placementMode = placementMode,
+                    playerId = playerId
+                };
+            }
+        }
+        else
+        {
+            // For face mode, create a default state if none exists
+            state = new MemeObjectHandler.MemeObjectState
+            {
+                prefabName = $"Meme{memeIndex + 1}",
+                localPosition = Vector3.zero,
+                localRotation = Quaternion.identity,
+                scale = prefab.transform.localScale,
+                memeIndex = memeIndex,
+                placementMode = placementMode,
+                playerId = playerId // Ensure playerId is set
+            };
         }
 
         Vector3 spawnPos = menuPosition;
         Quaternion spawnRot = menuRotation;
         Vector3 spawnScale = prefab.transform.localScale;
 
-        if (state != null)
+        if (state.HasValue && isWorldMode)
         {
-            logger.Log($"[Server] Applying saved state to meme before spawn: pos={state.localPosition}, rot={state.localRotation}, scale={state.scale}", true, nameof(MemeNetworkManager));
-            if (mRUK != null && mRUK.GetCurrentRoom() != null && mRUK.GetCurrentRoom().FloorAnchor != null)
+            if (loadedFromDisk && anchor)
             {
-                var anchor = mRUK.GetCurrentRoom().FloorAnchor.transform;
-                spawnPos = anchor.TransformPoint(state.localPosition);
-                spawnRot = anchor.rotation * state.localRotation;
+                spawnPos = anchor.TransformPoint(state.Value.localPosition);
+                spawnRot = anchor.rotation * state.Value.localRotation;
             }
             else
             {
-                spawnPos = state.localPosition;
-                spawnRot = state.localRotation;
+                spawnPos = menuPosition;
+                spawnRot = menuRotation;
             }
-            spawnScale = state.scale;
+            spawnScale = state.Value.scale;
+        }
+        // For face mode, spawn at menu position/rotation, scale from state
+        if (state.HasValue && !isWorldMode)
+        {
+            spawnScale = state.Value.scale;
         }
 
         var obj = Instantiate(prefab, spawnPos, spawnRot);
         obj.transform.localScale = spawnScale;
+        logger.LogDebug($"[SpawnMeme] Instantiated meme prefab: name={obj.name}, instanceID={obj.GetInstanceID()}, position={spawnPos}, rotation={spawnRot}, scale={spawnScale}", nameof(MemeNetworkManager));
 
         if (!obj.TryGetComponent<NetworkObject>(out var netObj))
         {
-            logger.Log($"NetworkObject component missing on prefab {prefabPath}", true, nameof(MemeNetworkManager));
+            logger.LogError($"NetworkObject component missing on prefab {prefabPath}", nameof(MemeNetworkManager));
             return;
         }
 
         if (!obj.TryGetComponent<Unity.Netcode.Components.NetworkTransform>(out var netTransform))
         {
-            logger.Log($"NetworkTransform component missing on prefab {prefabPath}, adding it.", true, nameof(MemeNetworkManager));
+            logger.LogError($"NetworkTransform component missing on prefab {prefabPath}, adding it.", nameof(MemeNetworkManager));
             return;
         }
 
         if (!obj.TryGetComponent<MemeObjectHandler>(out var handlerNew))
-            handlerNew = obj.AddComponent<MemeObjectHandler>();
-
-        handlerNew.SetLogger(logger);
-        handlerNew.Init(memeIndex, $"Meme{memeIndex + 1}", playerId);
-
-        // Only set anchorTransform for world mode (server/host never tries to parent to face anchors)
+        {
+            logger.LogError($"MemeObjectHandler component missing on prefab {prefabPath}", nameof(MemeNetworkManager));
+            return;
+        }
+        // Only set anchorTransform for world mode BEFORE initializing (server/host never tries to parent to face anchors)
         if (isWorldMode && mRUK != null && mRUK.GetCurrentRoom() != null && mRUK.GetCurrentRoom().FloorAnchor != null)
             handlerNew.anchorTransform = mRUK.GetCurrentRoom().FloorAnchor.transform;
 
+        if (state.HasValue)
+        {
+            // Set the networked state BEFORE spawning the object
+            handlerNew.State = state.Value;
+            if (NetworkManager.Singleton.IsServer)
+            {
+                handlerNew.SetLogger(logger);
+                handlerNew.NetworkedState = state.Value.ToNetworked();
+            }
+            handlerNew.Initialize(state.Value, logger);
+        }
+
         if (ownerClientId.HasValue)
         {
-            netObj.SpawnWithOwnership(ownerClientId.Value, true);
+            logger.LogDebug($"[SpawnMeme] Spawning meme with ownership for clientId={ownerClientId.Value}, instanceID={obj.GetInstanceID()}", nameof(MemeNetworkManager));
+            netObj.SpawnWithOwnership(ownerClientId.Value);
             RegisterMeme(ownerClientId.Value, obj, memeIndex);
         }
         else if (!ownerClientId.HasValue && NetworkManager.Singleton.IsServer)
@@ -158,10 +232,12 @@ public class MemeNetworkManager : NetworkBehaviour
             netObj.Spawn(true);
             RegisterMeme(NetworkManager.Singleton.LocalClientId, obj, memeIndex);
         }
+        logger.LogDebug($"[SpawnMeme] Finished for memeName={obj.name}, instanceID={obj.GetInstanceID()}", nameof(MemeNetworkManager));
     }
 
     public void RequestCloseCurrentMeme()
     {
+        logger.LogDebug($"[RequestCloseCurrentMeme] Called. IsServer={NetworkManager.Singleton.IsServer}", nameof(MemeNetworkManager));
         if (NetworkManager.Singleton.IsServer)
         {
             CloseCurrentMemeInternal(NetworkManager.Singleton.LocalClientId);
@@ -176,17 +252,19 @@ public class MemeNetworkManager : NetworkBehaviour
     private void CloseCurrentMemeServerRpc(ServerRpcParams rpcParams = default)
     {
         ulong senderClientId = rpcParams.Receive.SenderClientId;
+        logger.LogDebug($"[CloseCurrentMemeServerRpc] Called for clientId={senderClientId}", nameof(MemeNetworkManager));
         CloseCurrentMemeInternal(senderClientId);
     }
 
     private void CloseCurrentMemeInternal(ulong clientId)
     {
+        logger.LogDebug($"[CloseCurrentMemeInternal] Called for clientId={clientId}", nameof(MemeNetworkManager));
         RemovePreviousMeme(clientId);
     }
 
     public void SaveMemeStateServer(int playerId, int memeIndex, MemeObjectHandler.MemeObjectState state)
     {
-        logger.Log($"[Server] Saved meme state for playerId={playerId}, memeIndex={memeIndex}", true, nameof(MemeNetworkManager));
+        logger.LogDebug($"[Server] Saved meme state for playerId={playerId}, memeIndex={memeIndex}", nameof(MemeNetworkManager));
         string dir = Path.Combine(Application.persistentDataPath, "memeObjectStates", playerId.ToString());
         if (!Directory.Exists(dir))
             Directory.CreateDirectory(dir);
@@ -195,17 +273,17 @@ public class MemeNetworkManager : NetworkBehaviour
         File.WriteAllText(filePath, json);
     }
 
-    public MemeObjectHandler.MemeObjectState GetMemeStateServer(int playerId, int memeIndex)
+    public MemeObjectHandler.MemeObjectState? GetMemeStateServer(int playerId, int memeIndex)
     {
         string filePath = Path.Combine(Application.persistentDataPath, "memeObjectStates", playerId.ToString(), $"meme_{memeIndex}.json");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             var loadedState = JsonUtility.FromJson<MemeObjectHandler.MemeObjectState>(json);
-            logger.Log($"[Server] Loaded meme state for playerId={playerId}, memeIndex={memeIndex} (from disk)", true, nameof(MemeNetworkManager));
+            logger.LogDebug($"[Server] Loaded meme state for playerId={playerId}, memeIndex={memeIndex} (from disk)", nameof(MemeNetworkManager));
             return loadedState;
         }
-        logger.Log($"[Server] No meme state found for playerId={playerId}, memeIndex={memeIndex}", true, nameof(MemeNetworkManager));
+        logger.LogDebug($"[Server] No meme state found for playerId={playerId}, memeIndex={memeIndex}", nameof(MemeNetworkManager));
         return null;
     }
 }

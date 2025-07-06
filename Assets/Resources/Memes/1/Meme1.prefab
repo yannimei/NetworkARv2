@@ -233,9 +233,9 @@ GameObject:
   - component: {fileID: 5414598240510615917}
   - component: {fileID: 5792306129239536860}
   - component: {fileID: 312604734875192196}
+  - component: {fileID: -5229052840094356995}
   - component: {fileID: 3244177540961576480}
   - component: {fileID: 7601414851036826440}
-  - component: {fileID: 7186931819864794942}
   - component: {fileID: 7873704222847405068}
   - component: {fileID: -7605387582071655035}
   m_Layer: 0
@@ -407,6 +407,28 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-5229052840094356995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6242241443719159064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4225a0be69a0b48a0dcc9a4eb0dd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementMode: 0
+  State:
+    prefabName: 
+    localPosition: {x: 0, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    memeIndex: 0
+    placementMode: 0
+    playerId: 0
+  anchorTransform: {fileID: 0}
 --- !u!114 &3244177540961576480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,19 +454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c591ff029c5744fab32050a9c97f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7186931819864794942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6242241443719159064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5cd4d312358a0489828723d6349820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementMode: 0
 --- !u!114 &7873704222847405068
 MonoBehaviour:
   m_ObjectHideFlags: 0
