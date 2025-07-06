@@ -10,7 +10,7 @@ using Meta.XR.MRUtilityKit;
 public partial class MemeObjectHandler : NetworkBehaviour
 {
     // --- Placement Mode ---
-    public enum PlacementMode { World, Face }
+    public enum PlacementMode { World, Face, Background }
     public PlacementMode placementMode = PlacementMode.World;
 
     // --- State ---
@@ -76,8 +76,18 @@ public partial class MemeObjectHandler : NetworkBehaviour
     {
         logger.LogDebug($"ApplyState called for playerId={state.playerId}, memeIndex={state.memeIndex}, placementMode={state.placementMode}", nameof(MemeObjectHandler));
 
+        // Check if placement mode is changing from tagged anchor to world
+        bool wasTaggedAnchor = placementMode != PlacementMode.World;
+        bool isNowWorld = state.placementMode == PlacementMode.World;
+        
         // Sync the field with the state
         placementMode = state.placementMode;
+
+        // Unregister if changing from tagged anchor to world mode
+        if (wasTaggedAnchor && isNowWorld && MemeNetworkManager.Instance != null)
+        {
+            MemeNetworkManager.Instance.UnregisterTaggedAnchorMeme(this);
+        }
 
         if (state.placementMode == PlacementMode.World)
         {
@@ -93,9 +103,9 @@ public partial class MemeObjectHandler : NetworkBehaviour
                 logger.LogDebug($"No anchor transform available, preserving current world position: {transform.position}", nameof(MemeObjectHandler));
             }
         }
-        else if (state.placementMode == PlacementMode.Face)
+        else if (state.placementMode != PlacementMode.World)
         {
-            AttachToFaceAnchorLocal();
+            AttachToTaggedAnchorLocal();
         }
 
         // Log final transform values for debugging
@@ -110,19 +120,19 @@ public partial class MemeObjectHandler : NetworkBehaviour
     }
 
     // --- Placement Logic ---
-    private void AttachToFaceAnchorLocal()
+    private void AttachToTaggedAnchorLocal()
     {
-        logger.LogDebug("AttachToFaceAnchorLocal called.", nameof(MemeObjectHandler));
-        var faceAnchor = AttachToFaceAnchor();
-        if (faceAnchor != null)
+        logger.LogDebug($"AttachToTaggedAnchorLocal called for placement mode: {placementMode}", nameof(MemeObjectHandler));
+        var taggedAnchor = AttachToTaggedAnchor();
+        if (taggedAnchor != null)
         {
-            anchorTransform = faceAnchor;
-            logger.LogDebug("Attached to local face anchor.", nameof(MemeObjectHandler));
-            MemeNetworkManager.Instance?.RegisterFaceMeme(this);
+            anchorTransform = taggedAnchor;
+            logger.LogDebug($"Attached to local tagged anchor with tag: {placementMode}", nameof(MemeObjectHandler));
+            MemeNetworkManager.Instance?.RegisterTaggedAnchorMeme(this);
         }
         else
         {
-            logger.LogError("Face anchor not found on client.", nameof(MemeObjectHandler));
+            logger.LogError($"Tagged anchor not found on client for tag: {placementMode}", nameof(MemeObjectHandler));
         }
     }
 
@@ -138,17 +148,38 @@ public partial class MemeObjectHandler : NetworkBehaviour
     public void DetachFromAnchor()
     {
         transform.SetParent(null, false);
+        
+        // Unregister from tagged anchor tracking when detaching
+        if (placementMode != PlacementMode.World && MemeNetworkManager.Instance != null)
+        {
+            MemeNetworkManager.Instance.UnregisterTaggedAnchorMeme(this);
+        }
     }
 
-    public Transform AttachToFaceAnchor()
+    public Transform AttachToTaggedAnchor()
     {
-        // Always find the face anchor locally
-        var faceAnchor = GameObject.FindGameObjectWithTag("Face");
-        if (faceAnchor != null)
+        // For World mode, don't look for tagged anchors
+        if (placementMode == PlacementMode.World)
         {
-            AttachToAnchor(faceAnchor.transform);
+            logger.LogDebug("AttachToTaggedAnchor called for World mode - returning null", nameof(MemeObjectHandler));
+            return null;
         }
-        return faceAnchor != null ? faceAnchor.transform : null;
+
+        // Find the anchor based on the placement mode name as tag
+        string tagName = placementMode.ToString();
+        var taggedAnchor = GameObject.FindGameObjectWithTag(tagName);
+        
+        if (taggedAnchor != null)
+        {
+            logger.LogDebug($"Found tagged anchor for tag: {tagName}", nameof(MemeObjectHandler));
+            AttachToAnchor(taggedAnchor.transform);
+        }
+        else
+        {
+            logger.LogError($"No GameObject found with tag: {tagName}", nameof(MemeObjectHandler));
+        }
+        
+        return taggedAnchor != null ? taggedAnchor.transform : null;
     }
 
     // Optionally, add a helper to get placement mode from prefab or state
@@ -160,8 +191,8 @@ public partial class MemeObjectHandler : NetworkBehaviour
 
     private void Update()
     {
-        // If in face mode, follow the face anchor every frame
-        if (placementMode == PlacementMode.Face && anchorTransform != null)
+        // If not in world mode, follow the tagged anchor every frame
+        if (placementMode != PlacementMode.World && anchorTransform != null)
         {
             transform.SetPositionAndRotation(anchorTransform.position, anchorTransform.rotation);
         }
@@ -250,12 +281,24 @@ public partial class MemeObjectHandler : NetworkBehaviour
     {
         base.OnDestroy();
         logger.LogDebug($"OnDestroy called for playerId={State.playerId}, memeIndex={State.memeIndex}, name={gameObject.name}", nameof(MemeObjectHandler));
+        
+        // Unregister from tagged anchor tracking if this meme was attached to a tagged anchor
+        if (placementMode != PlacementMode.World && MemeNetworkManager.Instance != null)
+        {
+            MemeNetworkManager.Instance.UnregisterTaggedAnchorMeme(this);
+        }
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         logger.LogDebug($"OnNetworkDespawn called for playerId={State.playerId}, memeIndex={State.memeIndex}, name={gameObject.name}", nameof(MemeObjectHandler));
+        
+        // Unregister from tagged anchor tracking if this meme was attached to a tagged anchor
+        if (placementMode != PlacementMode.World && MemeNetworkManager.Instance != null)
+        {
+            MemeNetworkManager.Instance.UnregisterTaggedAnchorMeme(this);
+        }
     }
 
     // --- MemeObjectState definition ---

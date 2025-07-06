@@ -2193,6 +2193,7 @@ MonoBehaviour:
   logFileName: log.txt
   logToFile: 1
   logToConsole: 1
+  minimumLogLevel: 1
 --- !u!4 &1576782523
 Transform:
   m_ObjectHideFlags: 0
@@ -2581,7 +2582,7 @@ GameObject:
   - component: {fileID: 1887011535}
   m_Layer: 0
   m_Name: BackgroundPosition
-  m_TagString: Untagged
+  m_TagString: Background
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

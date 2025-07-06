@@ -14,16 +14,16 @@ public class MemeNetworkManager : NetworkBehaviour
     private readonly Dictionary<ulong, GameObject> playerMemes = new();
     private readonly Dictionary<ulong, int> playerMemeIndices = new();
 
-    // --- Face meme tracking ---
-    private readonly List<MemeObjectHandler> faceMemes = new();
-    public void RegisterFaceMeme(MemeObjectHandler handler)
+    // --- Tagged anchor meme tracking ---
+    private readonly List<MemeObjectHandler> taggedAnchorMemes = new();
+    public void RegisterTaggedAnchorMeme(MemeObjectHandler handler)
     {
-        if (!faceMemes.Contains(handler))
-            faceMemes.Add(handler);
+        if (!taggedAnchorMemes.Contains(handler))
+            taggedAnchorMemes.Add(handler);
     }
-    public void UnregisterFaceMeme(MemeObjectHandler handler)
+    public void UnregisterTaggedAnchorMeme(MemeObjectHandler handler)
     {
-        faceMemes.Remove(handler);
+        taggedAnchorMemes.Remove(handler);
     }
 
     private void Awake()
@@ -74,6 +74,12 @@ public class MemeNetworkManager : NetworkBehaviour
         {
             logger.LogDebug($"[RemovePreviousMeme] Calling SaveState on meme instanceID={currentPlayerMeme.GetInstanceID()}", nameof(MemeNetworkManager));
             handler.SaveState();
+            
+            // Unregister from tagged anchor tracking if this meme was attached to a tagged anchor
+            if (handler.placementMode != MemeObjectHandler.PlacementMode.World)
+            {
+                UnregisterTaggedAnchorMeme(handler);
+            }
         }
         if (currentPlayerMeme.TryGetComponent<NetworkObject>(out var netObjToRemove))
         {
@@ -145,9 +151,10 @@ public class MemeNetworkManager : NetworkBehaviour
                 };
             }
         }
+        // For face mode, create a default state if none exists
         else
         {
-            // For face mode, create a default state if none exists
+            // For tagged anchor modes, create a default state if none exists
             state = new MemeObjectHandler.MemeObjectState
             {
                 prefabName = $"Meme{memeIndex + 1}",
@@ -178,7 +185,7 @@ public class MemeNetworkManager : NetworkBehaviour
             }
             spawnScale = state.Value.scale;
         }
-        // For face mode, spawn at menu position/rotation, scale from state
+        // For tagged anchor modes, spawn at menu position/rotation, scale from state
         if (state.HasValue && !isWorldMode)
         {
             spawnScale = state.Value.scale;
@@ -205,7 +212,7 @@ public class MemeNetworkManager : NetworkBehaviour
             logger.LogError($"MemeObjectHandler component missing on prefab {prefabPath}", nameof(MemeNetworkManager));
             return;
         }
-        // Only set anchorTransform for world mode BEFORE initializing (server/host never tries to parent to face anchors)
+        // Only set anchorTransform for world mode BEFORE initializing (server/host never tries to parent to tagged anchors)
         if (isWorldMode && mRUK != null && mRUK.GetCurrentRoom() != null && mRUK.GetCurrentRoom().FloorAnchor != null)
             handlerNew.anchorTransform = mRUK.GetCurrentRoom().FloorAnchor.transform;
 
