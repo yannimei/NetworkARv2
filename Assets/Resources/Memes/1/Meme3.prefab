@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 06bf3c857ef4d384ea63a1b1a9ef76ee, type: 2}
+  - {fileID: 2100000, guid: f7ea349cde3d58e4da964f26b0826492, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -174,7 +174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 06bf3c857ef4d384ea63a1b1a9ef76ee, type: 2}
+  - {fileID: 2100000, guid: 2d0415896f9aa6040bd2b247b31f07df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -233,11 +233,11 @@ GameObject:
   - component: {fileID: 5414598240510615917}
   - component: {fileID: 5792306129239536860}
   - component: {fileID: 312604734875192196}
-  - component: {fileID: -5759929149770999281}
+  - component: {fileID: 4659881946657943900}
   - component: {fileID: 3244177540961576480}
+  - component: {fileID: 2432130734444079546}
   - component: {fileID: 7601414851036826440}
-  - component: {fileID: 6121688123143953869}
-  - component: {fileID: 5286497146301738222}
+  - component: {fileID: 3750705695321870987}
   m_Layer: 0
   m_Name: Meme3
   m_TagString: Untagged
@@ -398,16 +398,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 591145949
+  GlobalObjectIdHash: 4023093913
   InScenePlacedSourceGlobalObjectIdHash: 900445553
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  ActiveSceneSynchronization: 1
+  ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-5759929149770999281
+--- !u!114 &4659881946657943900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,19 +416,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6242241443719159064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b4225a0be69a0b48a0dcc9a4eb0dd20, type: 3}
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementMode: 2
-  State:
-    prefabName: 
-    localPosition: {x: 0, y: 0, z: 0}
-    localRotation: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 0, y: 0, z: 0}
-    memeIndex: 0
-    placementMode: 0
-    playerId: 0
-  anchorTransform: {fileID: 0}
 --- !u!114 &3244177540961576480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,19 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseGravity: 0
---- !u!114 &7601414851036826440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6242241443719159064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c591ff029c5744fab32050a9c97f54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6121688123143953869
+--- !u!114 &2432130734444079546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -485,7 +463,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &5286497146301738222
+--- !u!114 &7601414851036826440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -494,9 +472,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 6242241443719159064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Script: {fileID: 11500000, guid: 71c591ff029c5744fab32050a9c97f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3750705695321870987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6242241443719159064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4225a0be69a0b48a0dcc9a4eb0dd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementMode: 0
+  State:
+    prefabName: 
+    localPosition: {x: 0, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 0}
+    scale: {x: 0, y: 0, z: 0}
+    memeIndex: 0
+    placementMode: 0
+    playerId: 0
+  anchorTransform: {fileID: 0}
 --- !u!1 &9046629923212249913
 GameObject:
   m_ObjectHideFlags: 0
