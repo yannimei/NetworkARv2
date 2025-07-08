@@ -22,6 +22,10 @@ public class Logger : NetworkBehaviour
             {
                 System.IO.File.WriteAllText(logFilePath, "[" + System.DateTime.Now + "] Logger initialized.\n");
             }
+            else
+            {
+                System.IO.File.AppendAllText(logFilePath, "\n[" + System.DateTime.Now + "] Logger reinitialized.\n");
+            }
         }
     }
 

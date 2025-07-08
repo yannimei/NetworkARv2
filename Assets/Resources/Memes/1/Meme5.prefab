@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2557918180
+  GlobalObjectIdHash: 3466212874
   InScenePlacedSourceGlobalObjectIdHash: 900445553
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4225a0be69a0b48a0dcc9a4eb0dd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementMode: 0
+  placementMode: 1
   State:
     prefabName: 
     localPosition: {x: 0, y: 0, z: 0}
