@@ -19,14 +19,6 @@ MonoBehaviour:
       prefab: {fileID: 6242241443719159064, guid: 80c6113109060524181e3aa9700293f5, type: 3}
     - type: 1
       prefab: {fileID: 6242241443719159064, guid: 7309d8bd9c4945b429380959ef64ee4f, type: 3}
-  - groupName: Grandma
-    groupItems:
-    - type: 0
-      prefab: {fileID: 6242241443719159064, guid: 50daf2c7208faf149bc91ae26d353f03, type: 3}
-    - type: 1
-      prefab: {fileID: 6242241443719159064, guid: 5ae13a2174ca8cc408b3513909e6ca31, type: 3}
-    - type: 2
-      prefab: {fileID: 6242241443719159064, guid: 131984764180142439eed214a8293f2a, type: 3}
   - groupName: Boromir
     groupItems:
     - type: 0
@@ -39,5 +31,5 @@ MonoBehaviour:
     groupItems:
     - type: 3
       prefab: {fileID: 6242241443719159064, guid: 141e0eda35c3b2448bfb12eb683ba12e, type: 3}
-    - type: 0
+    - type: 2
       prefab: {fileID: 6242241443719159064, guid: 6e9c3b1261c08314e97385e0cf3df3c2, type: 3}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8662816485759082796}
   - component: {fileID: 6487054929690606218}
   - component: {fileID: 1021904239024246933}
+  - component: {fileID: 9140765397598120492}
   m_Layer: 0
   m_Name: FrontFace
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ecbeff62d94ad5c47b19a1822c9e539f, type: 2}
+  - {fileID: 2100000, guid: a4c3d124fed02d44fb9731cd53d9b31a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +110,40 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!328 &9140765397598120492
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907304542932130331}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 249cee182cfa68e449d01a7c18cd88f2, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 3
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &4344293585776780131
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +156,7 @@ GameObject:
   - component: {fileID: 2946782274698648601}
   - component: {fileID: 3108436579433912623}
   - component: {fileID: 796716532563959899}
+  - component: {fileID: 3698138598818644267}
   m_Layer: 0
   m_Name: BackFace
   m_TagString: Untagged
@@ -174,7 +210,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ecbeff62d94ad5c47b19a1822c9e539f, type: 2}
+  - {fileID: 2100000, guid: a4c3d124fed02d44fb9731cd53d9b31a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,6 +254,40 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!328 &3698138598818644267
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4344293585776780131}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 249cee182cfa68e449d01a7c18cd88f2, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 3
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 1
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
 --- !u!1 &6242241443719159064
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +307,7 @@ GameObject:
   - component: {fileID: 3244177540961576480}
   - component: {fileID: 2432130734444079546}
   - component: {fileID: 7601414851036826440}
-  - component: {fileID: 5599829782164895414}
+  - component: {fileID: 4235616805310624804}
   m_Layer: 0
   m_Name: Meme6
   m_TagString: Untagged
@@ -276,7 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: e9b4b64f-1c7e-4dff-8f3c-ce409bdc3951
-  instanceId: a0f0a738-7fb8-46d1-9224-9af5c7d9e5ef
+  instanceId: 2e154f9e-cd9a-43af-8ae5-a3bed8528662
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: d5c83ff6-47e4-4c98-acdd-041d4686912f
@@ -398,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1306583695
+  GlobalObjectIdHash: 3214960798
   InScenePlacedSourceGlobalObjectIdHash: 900445553
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -475,7 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c591ff029c5744fab32050a9c97f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5599829782164895414
+--- !u!114 &4235616805310624804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
