@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Removal-598
+  m_Name: Removal-598 Variant
   m_Shader: {fileID: 4800000, guid: 34bdae7d0c511a94fab87797a0c14bed, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: ed17a0db0048f3c42b3ec57d75db661a, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -22,18 +22,10 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 73c307d354e0d9e4f86296f8df1a49da, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _ChromaThreshold: 0.3
-    - _EnvironmentDepthBias: 0
-    - _Opacity: 0.536
-    m_Colors:
-    - _ChromaKeyColor: {r: 0, g: 1, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Opacity: 1
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

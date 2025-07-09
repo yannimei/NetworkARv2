@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: a4792fe2-fdfe-4f9b-90fb-fffe0f9684c5_removalai_preview
-  m_Shader: {fileID: 4800000, guid: 6db672d4431a6cc4884354fb3e22dc33, type: 3}
+  m_Shader: {fileID: 4800000, guid: 34bdae7d0c511a94fab87797a0c14bed, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -31,6 +31,7 @@ Material:
     m_Floats:
     - _ChromaThreshold: 0.3
     - _EnvironmentDepthBias: 0
+    - _Opacity: 1
     m_Colors:
     - _ChromaKeyColor: {r: 0, g: 1, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

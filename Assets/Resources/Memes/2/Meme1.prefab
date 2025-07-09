@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6487054929690606218}
   - component: {fileID: 1021904239024246933}
   m_Layer: 0
-  m_Name: FrontFace
+  m_Name: BackFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 3108436579433912623}
   - component: {fileID: 796716532563959899}
   m_Layer: 0
-  m_Name: BackFace
+  m_Name: FrontFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

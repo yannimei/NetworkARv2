@@ -7,6 +7,8 @@ Shader "Custom/OcclusionGreenToTransparent"
         _EnvironmentDepthBias ("Environment Depth Bias", Float) = 0.0
         _ChromaKeyColor ("Chroma Key Color", Color) = (0,1,0,1)
         _ChromaThreshold ("Chroma Key Threshold", Float) = 0.3
+        _Opacity ("Opacity", Range(0,1)) = 1.0
+
     }
 
     SubShader
@@ -54,6 +56,8 @@ Shader "Custom/OcclusionGreenToTransparent"
 
             fixed4 _ChromaKeyColor;
             float _ChromaThreshold;
+            float _Opacity;
+
 
             v2f vert (appdata v)
             {
@@ -79,6 +83,12 @@ Shader "Custom/OcclusionGreenToTransparent"
                 {
                     finalColor.a = 0;
                 }
+
+                // Premultiply alpha for correct blending
+                //finalColor.rgb *= finalColor.a;
+
+                // Apply user-defined opacity
+                finalColor.a *= _Opacity;
 
                 // Premultiply alpha for correct blending
                 finalColor.rgb *= finalColor.a;

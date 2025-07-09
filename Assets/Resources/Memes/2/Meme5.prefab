@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6487054929690606218}
   - component: {fileID: 1021904239024246933}
   m_Layer: 0
-  m_Name: FrontFace
+  m_Name: BackFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 3108436579433912623}
   - component: {fileID: 796716532563959899}
   m_Layer: 0
-  m_Name: BackFace
+  m_Name: FrontFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,7 +174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ed17a0db0048f3c42b3ec57d75db661a, type: 2}
+  - {fileID: 2100000, guid: 60f7a3354a9d7d449a3399904b2c579b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3466212874
+  GlobalObjectIdHash: 2557918180
   InScenePlacedSourceGlobalObjectIdHash: 900445553
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
