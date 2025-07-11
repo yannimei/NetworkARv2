@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: ChangeMyMind
+    groupItems:
+    - type: 0
+      prefab: {fileID: 1911151642785915281, guid: 44aabae76ccc5054aa699ff94e82a828, type: 3}
+    - type: 1
+      prefab: {fileID: 1704765167707804727, guid: 915829c19746a7f49a35b9aebc7981fd, type: 3}
+    - type: 1
+      prefab: {fileID: 1704765167707804727, guid: 3d27fcf34479bc3429c6ee2f10ad892a, type: 3}
+    - type: 2
+      prefab: {fileID: 921029847640475379, guid: 80b721003e66e484f94c7db6bf13545a, type: 3}
+  - groupName: KemiTyping
+    groupItems:
+    - type: 0
+      prefab: {fileID: 4016911534796006182, guid: aa4c4e217f9cba840ab83a7b9ed10c81, type: 3}
+    - type: 1
+      prefab: {fileID: 6628963874643077771, guid: bb99c9427c71c3549834ccf6db261d3a, type: 3}
+  - groupName: MetalPipe
+    groupItems:
+    - type: 0
+      prefab: {fileID: 4181437290270304245, guid: f63543ac7f0418349a1d15fc714a5310, type: 3}
+    - type: 1
+      prefab: {fileID: 8552040935246479085, guid: 4b309d3a88b977145bd988f639bc8187, type: 3}
