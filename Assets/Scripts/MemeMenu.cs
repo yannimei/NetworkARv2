@@ -1,7 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
 public class MemeMenu : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class MemeMenu : MonoBehaviour
     private enum MenuMode { QuickSelection, GroupMode }
     private MenuMode currentMode = MenuMode.QuickSelection;
     private readonly List<MemeContextGroupCollection.Meme> quickSelectionMemes = new();
+    private bool hasLoadedQuickSelection = false;
 
     private void Start()
     {
@@ -29,6 +32,27 @@ public class MemeMenu : MonoBehaviour
         AssignMemeButtons();
         memeCloseButton.onClick.RemoveAllListeners();
         memeCloseButton.onClick.AddListener(CloseCurrentMeme);
+        
+        // Load quick selection after initialization
+        StartCoroutine(LoadQuickSelectionWhenReady());
+    }
+
+    private System.Collections.IEnumerator LoadQuickSelectionWhenReady()
+    {
+        // Wait for NetworkManager to be ready
+        while (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsConnectedClient)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+        // Wait a bit more to ensure MemeNetworkManager is ready
+        yield return new WaitForSeconds(0.5f);
+        
+        // Load quick selection when network and meme context are ready
+        if (!hasLoadedQuickSelection && memeContextGroupCollection != null)
+        {
+            LoadQuickSelection();
+        }
     }
 
     private void SetPlayerMemePath()
@@ -57,6 +81,8 @@ public class MemeMenu : MonoBehaviour
                 group.groupItems.Sort((a, b) => NaturalCompare(a?.prefab?.name, b?.prefab?.name));
                 quickSelectionMemes.Add(group.groupItems.Count > 0 ? group.groupItems[0] : null);
             }
+            
+            // Quick selection will be loaded via LoadQuickSelectionWhenReady coroutine
         }
         else
         {
@@ -293,6 +319,9 @@ public class MemeMenu : MonoBehaviour
             quickSelectionMemes[groupIndex] = meme;
             logger.LogInfo($"Assigned meme {meme?.prefab?.name ?? "null"} to quick slot {groupIndex}", nameof(MemeMenu));
             
+            // Save the updated quick selection to server
+            SaveQuickSelection();
+            
             // Spawn the meme
             SpawnMeme(meme, groupIndex);
             
@@ -332,13 +361,145 @@ public class MemeMenu : MonoBehaviour
         }
     }
 
+    // --- Quick Selection Persistence ---
+    private void SaveQuickSelection()
+    {
+        int playerId = PlayerIdManager.Instance.PlayerId;
+        string[] selectedMemeNames = new string[quickSelectionMemes.Count];
+        
+        for (int i = 0; i < quickSelectionMemes.Count; i++)
+        {
+            selectedMemeNames[i] = quickSelectionMemes[i]?.prefab?.name ?? "";
+        }
+        
+        logger.LogDebug($"Saving quick selection for player {playerId} with {selectedMemeNames.Length} slots, IsServer={NetworkManager.Singleton?.IsServer}", nameof(MemeMenu));
+        
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
+        {
+            logger.LogDebug("Saving quick selection directly on server/host", nameof(MemeMenu));
+            MemeNetworkManager.SaveQuickSelectionServer(playerId, selectedMemeNames);
+        }
+        else if (NetworkManager.Singleton != null && MemeNetworkManager != null)
+        {
+            logger.LogDebug("Sending quick selection save request to server via MemeNetworkManager", nameof(MemeMenu));
+            var networkData = new MemeNetworkManager.NetworkQuickSelectionData
+            {
+                playerId = playerId,
+                selectedMemeNames = selectedMemeNames
+            };
+            MemeNetworkManager.SaveQuickSelectionServerRpc(networkData);
+        }
+        else
+        {
+            logger.LogWarning("Cannot save quick selection - NetworkManager or MemeNetworkManager not ready", nameof(MemeMenu));
+        }
+    }
+
+    private void LoadQuickSelection()
+    {
+        if (hasLoadedQuickSelection)
+        {
+            logger.LogDebug("Quick selection already loaded, skipping", nameof(MemeMenu));
+            return;
+        }
+
+        int playerId = PlayerIdManager.Instance.PlayerId;
+        logger.LogDebug($"Loading quick selection for player {playerId}, IsServer={NetworkManager.Singleton?.IsServer}, IsHost={NetworkManager.Singleton?.IsHost}", nameof(MemeMenu));
+        
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
+        {
+            logger.LogDebug("Loading quick selection directly on server/host", nameof(MemeMenu));
+            var data = MemeNetworkManager.GetQuickSelectionServer(playerId);
+            if (data.HasValue)
+            {
+                logger.LogDebug($"Found saved quick selection data for player {playerId}", nameof(MemeMenu));
+                ApplyQuickSelectionData(data.Value);
+            }
+            else
+            {
+                logger.LogDebug($"No saved quick selection data found for player {playerId}", nameof(MemeMenu));
+            }
+            hasLoadedQuickSelection = true;
+        }
+        else if (NetworkManager.Singleton != null && MemeNetworkManager != null)
+        {
+            logger.LogDebug("Requesting quick selection from server via MemeNetworkManager", nameof(MemeMenu));
+            MemeNetworkManager.LoadQuickSelectionServerRpc(playerId);
+            // We'll handle the response in OnMemeNetworkManagerClientRpc
+        }
+        else
+        {
+            logger.LogWarning("Cannot load quick selection - NetworkManager or MemeNetworkManager not ready", nameof(MemeMenu));
+        }
+    }
+
+    private void ApplyQuickSelectionData(MemeNetworkManager.QuickSelectionData data)
+    {
+        if (memeContextGroupCollection == null || data.selectedMemeNames == null)
+        {
+            logger.LogWarning("Cannot apply quick selection data - missing context collection or data", nameof(MemeMenu));
+            return;
+        }
+
+        logger.LogDebug($"Applying quick selection data for player {data.playerId} with {data.selectedMemeNames?.Length ?? 0} saved memes", nameof(MemeMenu));
+        
+        // Ensure quickSelectionMemes has the right size
+        while (quickSelectionMemes.Count < memeContextGroupCollection.memeGroups.Count)
+            quickSelectionMemes.Add(null);
+
+        // Try to find and restore each saved meme
+        int nameCount = data.selectedMemeNames?.Length ?? 0;
+        for (int i = 0; i < nameCount && i < quickSelectionMemes.Count && i < memeContextGroupCollection.memeGroups.Count; i++)
+        {
+            string savedMemeName = data.selectedMemeNames[i];
+            if (!string.IsNullOrEmpty(savedMemeName))
+            {
+                // Find the meme in the current group
+                var group = memeContextGroupCollection.memeGroups[i];
+                var foundMeme = group.groupItems.Find(meme => meme?.prefab?.name == savedMemeName);
+                
+                if (foundMeme != null)
+                {
+                    quickSelectionMemes[i] = foundMeme;
+                    logger.LogDebug($"Restored meme '{savedMemeName}' to quick slot {i}", nameof(MemeMenu));
+                }
+                else
+                {
+                    logger.LogWarning($"Could not find saved meme '{savedMemeName}' in group {i}, using default", nameof(MemeMenu));
+                    // Keep the default (first meme in group)
+                }
+            }
+        }
+        
+        // Refresh the UI if we're in quick selection mode
+        if (currentMode == MenuMode.QuickSelection)
+        {
+            AssignMemeButtons();
+        }
+    }
+
     // Natural sort comparison for strings with numbers (e.g. meme2 < meme10)
     private int NaturalCompare(string a, string b)
     {
         if (a == null && b == null) return 0;
         if (a == null) return -1;
         if (b == null) return 1;
-        string padNumbers(string input) => System.Text.RegularExpressions.Regex.Replace(input ?? "", "\\d+", m => m.Value.PadLeft(10, '0'));
+        static string padNumbers(string input) => System.Text.RegularExpressions.Regex.Replace(input ?? "", "\\d+", m => m.Value.PadLeft(10, '0'));
         return string.Compare(padNumbers(a), padNumbers(b), System.StringComparison.Ordinal);
+    }
+
+    // Method called by MemeNetworkManager when quick selection data is received from server
+    public void OnQuickSelectionDataReceived(MemeNetworkManager.QuickSelectionData? data)
+    {
+        if (data.HasValue)
+        {
+            logger.LogDebug($"Received quick selection data for player {data.Value.playerId} from MemeNetworkManager", nameof(MemeMenu));
+            ApplyQuickSelectionData(data.Value);
+        }
+        else
+        {
+            logger.LogDebug("No quick selection data found (null received from MemeNetworkManager)", nameof(MemeMenu));
+        }
+        hasLoadedQuickSelection = true;
     }
 }

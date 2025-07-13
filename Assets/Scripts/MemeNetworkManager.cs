@@ -293,4 +293,133 @@ public class MemeNetworkManager : NetworkBehaviour
         logger.LogDebug($"[Server] No meme state found for playerId={playerId}, memeIndex={memeIndex}", nameof(MemeNetworkManager));
         return null;
     }
+
+    // --- Quick Selection Persistence ---
+    [Serializable]
+    public struct QuickSelectionData
+    {
+        public string[] selectedMemeNames; // Store prefab names instead of references
+        public int playerId;
+    }
+
+    // Network serializable wrapper for RPC calls
+    [Serializable]
+    public struct NetworkQuickSelectionData : INetworkSerializable
+    {
+        public int playerId;
+        public string[] selectedMemeNames;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref playerId);
+            if (serializer.IsReader)
+            {
+                int count = 0;
+                serializer.SerializeValue(ref count);
+                selectedMemeNames = new string[count];
+                for (int i = 0; i < count; i++)
+                {
+                    serializer.SerializeValue(ref selectedMemeNames[i]);
+                }
+            }
+            else
+            {
+                int count = selectedMemeNames?.Length ?? 0;
+                serializer.SerializeValue(ref count);
+                for (int i = 0; i < count; i++)
+                {
+                    serializer.SerializeValue(ref selectedMemeNames[i]);
+                }
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SaveQuickSelectionServerRpc(NetworkQuickSelectionData networkData, ServerRpcParams rpcParams = default)
+    {
+        logger.LogDebug($"SaveQuickSelectionServerRpc received for player {networkData.playerId} from client {rpcParams.Receive.SenderClientId}", nameof(MemeNetworkManager));
+        SaveQuickSelectionServer(networkData.playerId, networkData.selectedMemeNames);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void LoadQuickSelectionServerRpc(int playerId, ServerRpcParams rpcParams = default)
+    {
+        logger.LogDebug($"LoadQuickSelectionServerRpc received for player {playerId} from client {rpcParams.Receive.SenderClientId}", nameof(MemeNetworkManager));
+        var data = GetQuickSelectionServer(playerId);
+        var networkData = data.HasValue 
+            ? new NetworkQuickSelectionData 
+            { 
+                playerId = data.Value.playerId, 
+                selectedMemeNames = data.Value.selectedMemeNames 
+            }
+            : new NetworkQuickSelectionData { playerId = -1, selectedMemeNames = new string[0] };
+        logger.LogDebug($"Sending quick selection response to client {rpcParams.Receive.SenderClientId}, found data: {data.HasValue}", nameof(MemeNetworkManager));
+        LoadQuickSelectionClientRpc(networkData, rpcParams.Receive.SenderClientId);
+    }
+
+    [ClientRpc]
+    public void LoadQuickSelectionClientRpc(NetworkQuickSelectionData networkData, ulong clientId)
+    {
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            logger.LogDebug($"LoadQuickSelectionClientRpc received for player {networkData.playerId}, target client: {clientId}, local client: {NetworkManager.Singleton.LocalClientId}", nameof(MemeNetworkManager));
+            
+            // Find MemeMenu and notify it of the loaded data
+            var memeMenu = FindFirstObjectByType<MemeMenu>();
+            if (memeMenu != null)
+            {
+                if (networkData.playerId != -1)
+                {
+                    // Convert NetworkQuickSelectionData back to QuickSelectionData
+                    var data = new QuickSelectionData
+                    {
+                        playerId = networkData.playerId,
+                        selectedMemeNames = networkData.selectedMemeNames
+                    };
+                    memeMenu.OnQuickSelectionDataReceived(data);
+                }
+                else
+                {
+                    logger.LogDebug("No quick selection data found (sentinel received).", nameof(MemeNetworkManager));
+                    memeMenu.OnQuickSelectionDataReceived(null);
+                }
+            }
+            else
+            {
+                logger.LogWarning("MemeMenu not found to deliver quick selection data", nameof(MemeNetworkManager));
+            }
+        }
+    }
+
+    public void SaveQuickSelectionServer(int playerId, string[] selectedMemeNames)
+    {
+        logger.LogDebug($"[Server] Saving quick selection for playerId={playerId}", nameof(MemeNetworkManager));
+        var data = new QuickSelectionData
+        {
+            playerId = playerId,
+            selectedMemeNames = selectedMemeNames ?? new string[0]
+        };
+        
+        string dir = Path.Combine(Application.persistentDataPath, "quickSelections");
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+        string filePath = Path.Combine(dir, $"player_{playerId}_quick_selection.json");
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(filePath, json);
+        logger.LogDebug($"[Server] Quick selection saved for playerId={playerId} with {selectedMemeNames?.Length ?? 0} memes", nameof(MemeNetworkManager));
+    }
+
+    public QuickSelectionData? GetQuickSelectionServer(int playerId)
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, "quickSelections", $"player_{playerId}_quick_selection.json");
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            var loadedData = JsonUtility.FromJson<QuickSelectionData>(json);
+            logger.LogDebug($"[Server] Loaded quick selection for playerId={playerId} with {loadedData.selectedMemeNames?.Length ?? 0} memes", nameof(MemeNetworkManager));
+            return loadedData;
+        }
+        logger.LogDebug($"[Server] No quick selection found for playerId={playerId}", nameof(MemeNetworkManager));
+        return null;
+    }
 }
