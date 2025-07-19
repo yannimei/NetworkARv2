@@ -32,22 +32,22 @@ public class MemeMenu : MonoBehaviour
         AssignMemeButtons();
         memeCloseButton.onClick.RemoveAllListeners();
         memeCloseButton.onClick.AddListener(CloseCurrentMeme);
-        
+
         // Load quick selection after initialization
         StartCoroutine(LoadQuickSelectionWhenReady());
     }
 
-    private System.Collections.IEnumerator LoadQuickSelectionWhenReady()
+    private IEnumerator LoadQuickSelectionWhenReady()
     {
         // Wait for NetworkManager to be ready
         while (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsConnectedClient)
         {
             yield return new WaitForSeconds(0.1f);
         }
-        
+
         // Wait a bit more to ensure MemeNetworkManager is ready
         yield return new WaitForSeconds(0.5f);
-        
+
         // Load quick selection when network and meme context are ready
         if (!hasLoadedQuickSelection && memeContextGroupCollection != null)
         {
@@ -81,7 +81,7 @@ public class MemeMenu : MonoBehaviour
                 group.groupItems.Sort((a, b) => NaturalCompare(a?.prefab?.name, b?.prefab?.name));
                 quickSelectionMemes.Add(group.groupItems.Count > 0 ? group.groupItems[0] : null);
             }
-            
+
             // Quick selection will be loaded via LoadQuickSelectionWhenReady coroutine
         }
         else
@@ -113,13 +113,15 @@ public class MemeMenu : MonoBehaviour
             Destroy(child.gameObject);
         memeButtons.Clear();
 
+        memeButtonsContainer.constraintCount = quickSelectionMemes.Count > 0 ? quickSelectionMemes.Count : 1;
+
         // Add quick selection buttons (always 1 per group)
         for (int i = 0; i < quickSelectionMemes.Count; i++)
         {
             var meme = quickSelectionMemes[i];
             var buttonObj = Instantiate(memeButtonPrefab, memeButtonsContainer.transform);
             var btn = buttonObj.GetComponent<Button>();
-            
+
             // Set preview image
             var rawImage = buttonObj.GetComponentInChildren<RawImage>();
             if (rawImage != null && meme?.prefab != null)
@@ -130,12 +132,12 @@ public class MemeMenu : MonoBehaviour
                 else
                     logger.LogWarning($"Preview texture not found for meme {meme.prefab.name}", nameof(MemeMenu));
             }
-            
+
             // Set text using helper method
             var tmpText = buttonObj.GetComponentInChildren<TMP_Text>();
             if (tmpText != null)
                 tmpText.text = GetMemeTypeText(meme);
-            
+
             // Set button click handler
             if (btn != null)
             {
@@ -159,7 +161,7 @@ public class MemeMenu : MonoBehaviour
                 {
                     var buttonObj = Instantiate(memeButtonPrefab, groupObj.transform);
                     var btn = buttonObj.GetComponent<Button>();
-                    
+
                     // Set preview image
                     var rawImage = buttonObj.GetComponentInChildren<RawImage>();
                     if (rawImage != null && meme.prefab != null)
@@ -170,12 +172,12 @@ public class MemeMenu : MonoBehaviour
                         else
                             logger.LogWarning($"Preview texture not found for meme {meme.prefab.name} in group {group.groupName}", nameof(MemeMenu));
                     }
-                    
+
                     // Set text using helper method
                     var tmpText = buttonObj.GetComponentInChildren<TMP_Text>();
                     if (tmpText != null)
                         tmpText.text = GetMemeTypeText(meme);
-                    
+
                     // Set button click handler
                     if (btn != null)
                     {
@@ -230,7 +232,7 @@ public class MemeMenu : MonoBehaviour
     private string GetMemeTypeText(MemeContextGroupCollection.Meme meme)
     {
         if (meme == null) return "Empty";
-        
+
         return meme.type switch
         {
             MemeContextGroupCollection.MemeType.TwoD => "2D",
@@ -284,7 +286,7 @@ public class MemeMenu : MonoBehaviour
         {
             var meme = quickSelectionMemes[slotIndex];
             var buttonObj = memeButtons[slotIndex].gameObject;
-            
+
             // Update preview image
             var rawImage = buttonObj.GetComponentInChildren<RawImage>();
             if (rawImage != null && meme?.prefab != null)
@@ -295,7 +297,7 @@ public class MemeMenu : MonoBehaviour
                 else
                     logger.LogWarning($"Preview texture not found for meme {meme.prefab.name}", nameof(MemeMenu));
             }
-            
+
             // Update text
             var tmpText = buttonObj.GetComponentInChildren<TMP_Text>();
             if (tmpText != null)
@@ -311,20 +313,20 @@ public class MemeMenu : MonoBehaviour
             memeIndex < memeContextGroupCollection.memeGroups[groupIndex].groupItems.Count)
         {
             var meme = memeContextGroupCollection.memeGroups[groupIndex].groupItems[memeIndex];
-            
+
             // Ensure quickSelectionMemes is always the same length/order as memeGroups
             while (quickSelectionMemes.Count < memeContextGroupCollection.memeGroups.Count)
                 quickSelectionMemes.Add(null);
-                
+
             quickSelectionMemes[groupIndex] = meme;
             logger.LogInfo($"Assigned meme {meme?.prefab?.name ?? "null"} to quick slot {groupIndex}", nameof(MemeMenu));
-            
+
             // Save the updated quick selection to server
             SaveQuickSelection();
-            
+
             // Spawn the meme
             SpawnMeme(meme, groupIndex);
-            
+
             // Only update the affected quick selection button instead of rebuilding everything
             if (currentMode == MenuMode.QuickSelection || groupIndex < memeButtons.Count)
                 UpdateQuickSelectionButton(groupIndex);
@@ -337,7 +339,7 @@ public class MemeMenu : MonoBehaviour
         var meme = quickSelectionMemes[index];
         string memeName = meme?.prefab?.name ?? "None";
         logger.LogInfo($"Meme button {index} clicked by player: {playerId}. Meme: {memeName}", nameof(MemeMenu));
-        
+
         try
         {
             SpawnMeme(meme, index);
@@ -366,14 +368,14 @@ public class MemeMenu : MonoBehaviour
     {
         int playerId = PlayerIdManager.Instance.PlayerId;
         string[] selectedMemeNames = new string[quickSelectionMemes.Count];
-        
+
         for (int i = 0; i < quickSelectionMemes.Count; i++)
         {
             selectedMemeNames[i] = quickSelectionMemes[i]?.prefab?.name ?? "";
         }
-        
+
         logger.LogDebug($"Saving quick selection for player {playerId} with {selectedMemeNames.Length} slots, IsServer={NetworkManager.Singleton?.IsServer}", nameof(MemeMenu));
-        
+
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
         {
             logger.LogDebug("Saving quick selection directly on server/host", nameof(MemeMenu));
@@ -405,7 +407,7 @@ public class MemeMenu : MonoBehaviour
 
         int playerId = PlayerIdManager.Instance.PlayerId;
         logger.LogDebug($"Loading quick selection for player {playerId}, IsServer={NetworkManager.Singleton?.IsServer}, IsHost={NetworkManager.Singleton?.IsHost}", nameof(MemeMenu));
-        
+
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
         {
             logger.LogDebug("Loading quick selection directly on server/host", nameof(MemeMenu));
@@ -442,7 +444,7 @@ public class MemeMenu : MonoBehaviour
         }
 
         logger.LogDebug($"Applying quick selection data for player {data.playerId} with {data.selectedMemeNames?.Length ?? 0} saved memes", nameof(MemeMenu));
-        
+
         // Ensure quickSelectionMemes has the right size
         while (quickSelectionMemes.Count < memeContextGroupCollection.memeGroups.Count)
             quickSelectionMemes.Add(null);
@@ -457,7 +459,7 @@ public class MemeMenu : MonoBehaviour
                 // Find the meme in the current group
                 var group = memeContextGroupCollection.memeGroups[i];
                 var foundMeme = group.groupItems.Find(meme => meme?.prefab?.name == savedMemeName);
-                
+
                 if (foundMeme != null)
                 {
                     quickSelectionMemes[i] = foundMeme;
@@ -470,7 +472,7 @@ public class MemeMenu : MonoBehaviour
                 }
             }
         }
-        
+
         // Refresh the UI if we're in quick selection mode
         if (currentMode == MenuMode.QuickSelection)
         {
