@@ -239,6 +239,7 @@ public class MemeMenu : MonoBehaviour
             MemeContextGroupCollection.MemeType.ThreeD => "3D",
             MemeContextGroupCollection.MemeType.Face => "Face",
             MemeContextGroupCollection.MemeType.Video => "Video",
+            MemeContextGroupCollection.MemeType.Env => "Env",
             _ => "Unknown"
         };
     }
