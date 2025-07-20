@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Homer
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6242241443719159064, guid: 80c6113109060524181e3aa9700293f5, type: 3}
+    - type: 1
+      prefab: {fileID: 6242241443719159064, guid: 7309d8bd9c4945b429380959ef64ee4f, type: 3}
+  - groupName: Boromir
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6242241443719159064, guid: 875e3ec24032239439ab1e927025bb20, type: 3}
+    - type: 1
+      prefab: {fileID: 6242241443719159064, guid: 911bae00885ba564aa8bdac2036975ce, type: 3}
+    - type: 2
+      prefab: {fileID: 6242241443719159064, guid: 99f1258270809ec4a9b59fd9b9eed719, type: 3}
+  - groupName: John Cena
+    groupItems:
+    - type: 3
+      prefab: {fileID: 6242241443719159064, guid: 141e0eda35c3b2448bfb12eb683ba12e, type: 3}
+    - type: 2
+      prefab: {fileID: 6242241443719159064, guid: 6e9c3b1261c08314e97385e0cf3df3c2, type: 3}

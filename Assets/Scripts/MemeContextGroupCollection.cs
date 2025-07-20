@@ -9,6 +9,7 @@ public class MemeContextGroupCollection : ScriptableObject
         TwoD,
         ThreeD,
         Face,
+        Env,
         Video
     }
 
