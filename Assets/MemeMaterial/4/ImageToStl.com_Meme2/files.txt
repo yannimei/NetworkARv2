@@ -1,0 +1,6 @@
+Meshes:
+mesh
+Textures:
+Color_71634a88-b682-42ba-b2d1-21944fa18423.jpg
+ORM_71634a88-b682-42ba-b2d1-21944fa18423.jpg
+NormalGL_71634a88-b682-42ba-b2d1-21944fa18423.jpg

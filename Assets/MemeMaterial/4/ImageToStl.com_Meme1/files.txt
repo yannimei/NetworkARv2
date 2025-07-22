@@ -1,0 +1,6 @@
+Meshes:
+mesh
+Textures:
+Color_8aff04bd-782c-4e13-ae0e-d5fea799fffa.jpg
+ORM_8aff04bd-782c-4e13-ae0e-d5fea799fffa.jpg
+NormalGL_8aff04bd-782c-4e13-ae0e-d5fea799fffa.jpg

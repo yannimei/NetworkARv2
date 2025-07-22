@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Dog_head
+    groupItems:
+    - type: 0
+      prefab: {fileID: 362473593325537761, guid: 80a7e6423bef6844c8786b69a5ddb2c6, type: 3}
+    - type: 1
+      prefab: {fileID: 4224800122585913498, guid: 9e5fa2c07f26cc34086ed1f7569d0678, type: 3}
+    - type: 2
+      prefab: {fileID: 2999557549976814362, guid: b67c991c64058f24f85bf2b00551cf3f, type: 3}
+  - groupName: Dog_kayboard
+    groupItems:
+    - type: 0
+      prefab: {fileID: 7008836897857618012, guid: 4a5e0da44c709784fb7d5f4c3006876d, type: 3}
+    - type: 1
+      prefab: {fileID: 3286033370816614965, guid: 4b1dedf6e76c81b4da1ee23e397122ba, type: 3}
+    - type: 2
+      prefab: {fileID: 2285276740458487172, guid: 0dc8129240f64ad42a2d2234d7e04f80, type: 3}
+    - type: 3
+      prefab: {fileID: 734940112857214334, guid: 098bd578858444e4e817b0fa8e531a2f, type: 3}
+  - groupName: Dog_good
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6677173204577260589, guid: e9a191be188e0e445a584281aca9841e, type: 3}
+    - type: 1
+      prefab: {fileID: 3392412896865879451, guid: 25bb2b1ad87b35541a1309aa80bff744, type: 3}
+    - type: 2
+      prefab: {fileID: 8289473153182210587, guid: 8d0d5e9168943aa4589bb1859b9eed06, type: 3}
