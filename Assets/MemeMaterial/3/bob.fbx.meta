@@ -3,7 +3,32 @@ guid: bcac65eb42484de459498f8712801650
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeBobBody
+    second: {fileID: 2100000, guid: 4bda84cc07c8527458d79138be18bed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeBobGloss
+    second: {fileID: 2100000, guid: 4bda84cc07c8527458d79138be18bed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeBobLimbClothes
+    second: {fileID: 2100000, guid: 4bda84cc07c8527458d79138be18bed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeBobPants
+    second: {fileID: 2100000, guid: 4bda84cc07c8527458d79138be18bed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeBobTrousers
+    second: {fileID: 2100000, guid: 4bda84cc07c8527458d79138be18bed5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
