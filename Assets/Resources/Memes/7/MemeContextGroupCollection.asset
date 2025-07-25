@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: beaver
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2033011512808088692, guid: ba9f166530eb16f49bbf6241a4832a4a, type: 3}
+    - type: 1
+      prefab: {fileID: 3777841114963218023, guid: 1f7980308ff380e4492c9ccdeeb1d543, type: 3}
+    - type: 2
+      prefab: {fileID: 7885046987433325684, guid: bc6dd043afc815f488a5fb421bb6c589, type: 3}
+  - groupName: typing kitty
+    groupItems:
+    - type: 0
+      prefab: {fileID: 5759818935037424772, guid: 948e32e5a775b5e489f847a6d26ce14c, type: 3}
+    - type: 1
+      prefab: {fileID: 277779484450437377, guid: 8d2891111e0b6cf40ae408aa142914ce, type: 3}
+    - type: 3
+      prefab: {fileID: 6608619834184855690, guid: 56d1af5208b1a274c818d21cbad57c27, type: 3}
+  - groupName: Black cat zoning out
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2208617950669008053, guid: 2cb55b708b03a0b4ba6d4637807e947a, type: 3}
+    - type: 1
+      prefab: {fileID: 2649201315593943418, guid: e5219bfa41c77804596b1bce26e032dc, type: 3}
+    - type: 2
+      prefab: {fileID: 703167112474438218, guid: e33b023b619d00d47b5f5344fc3f3587, type: 3}

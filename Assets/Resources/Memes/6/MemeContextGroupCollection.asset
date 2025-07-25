@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: hey
+    groupItems:
+    - type: 0
+      prefab: {fileID: 553879158403416559, guid: cb37ebb7ef60c8d48914c75ae2d01dce, type: 3}
+    - type: 1
+      prefab: {fileID: 2622446655631281110, guid: 2e8a4fc5d848c054b840dcb4b9440753, type: 3}
+    - type: 2
+      prefab: {fileID: 8816445859880247606, guid: 5c2139f3acd8ed245964cf1537629ce5, type: 3}
+  - groupName: confused
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2542128771402765453, guid: 5a3e5e079cacda2498651b51b05ca65a, type: 3}
+    - type: 3
+      prefab: {fileID: 7287749634006773500, guid: a0dfd75054d24d4468847fce03654b28, type: 3}
+    - type: 1
+      prefab: {fileID: 2035942425949852626, guid: 7ddf6211b4178f5418ddeada32e6779c, type: 3}
+    - type: 2
+      prefab: {fileID: 6853382782638583795, guid: 454b7ca85400add478b37541493db357, type: 3}
+  - groupName: I have an idea
+    groupItems:
+    - type: 0
+      prefab: {fileID: 1696178353507499576, guid: 625460e76b2e2ba4290ae0069a61cdf9, type: 3}
+    - type: 1
+      prefab: {fileID: 5686291084257617766, guid: c9450acdb912cb54e82f5280f04eb6b6, type: 3}
+    - type: 3
+      prefab: {fileID: 5445474056118750878, guid: 99dd619633b6dc9448b8e12fbdda70e6, type: 3}

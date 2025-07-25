@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Homer
+    groupItems:
+    - type: 0
+      prefab: {fileID: 5486261014362703528, guid: df7e949fa39efbb4c840eebdab5e3c8e, type: 3}
+    - type: 1
+      prefab: {fileID: 5903357749234024192, guid: a8c01219ce337554f91a7cb3cca1b9bf, type: 3}
+    - type: 3
+      prefab: {fileID: 3641718308751579251, guid: ac62e85e8566446408be238d486d9de2, type: 3}
+    - type: 2
+      prefab: {fileID: 1985698071872066480, guid: 2d6bc00e9a72a2046a059df958753369, type: 3}
+  - groupName: Pedro Nick
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6653433053160276500, guid: 622e3c48335908b46af09737e9b2a677, type: 3}
+    - type: 1
+      prefab: {fileID: 8824235917317226146, guid: 2bcac2384ba15c349b92f9b632852bd6, type: 3}
+    - type: 2
+      prefab: {fileID: 5737141103850924389, guid: 289b9e4788931264d9ba26a9457bb69b, type: 3}
+    - type: 2
+      prefab: {fileID: 5737141103850924389, guid: a4fe22a9fb6b9d946a4a9de94ec2e0a5, type: 3}
+  - groupName: Pedro Crying
+    groupItems:
+    - type: 0
+      prefab: {fileID: 9025731523515272864, guid: c1b2b3f482a245b44b2ad02d45df3d7c, type: 3}
+    - type: 1
+      prefab: {fileID: 8301558312535300930, guid: 8a2f6273174e51e4daeb4d6869a93071, type: 3}
+    - type: 2
+      prefab: {fileID: 7436764943921914326, guid: 230fc79316d2736428aa38de062ffa41, type: 3}

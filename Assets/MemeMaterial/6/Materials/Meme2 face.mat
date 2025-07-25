@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VideoTransparentMaterial Variant 2
-  m_Shader: {fileID: 4800000, guid: 6db672d4431a6cc4884354fb3e22dc33, type: 3}
-  m_Parent: {fileID: 2100000, guid: 11f582abaa4fb6b44a4fa81a46ec32ae, type: 2}
+  m_Name: Meme2 face
+  m_Shader: {fileID: 4800000, guid: 34bdae7d0c511a94fab87797a0c14bed, type: 3}
+  m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -18,15 +18,20 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 5f7ab8fa503870745bfdbf236149721e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Opacity: 0.35
-    m_Colors: []
+    - _EnvironmentDepthBias: 0
+    - _Opacity: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

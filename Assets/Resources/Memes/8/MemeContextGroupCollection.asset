@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: John Cena
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2345020549925225482, guid: 60239d7068047074787b9d399f3a6900, type: 3}
+    - type: 1
+      prefab: {fileID: 480249223120922781, guid: e09c22dbac7fce74c93020117204cf99, type: 3}
+    - type: 2
+      prefab: {fileID: 4725831623960658919, guid: 7d1bb67f096fbb04b836f5b748fe6660, type: 3}
+  - groupName: 'Time To Explore '
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2130103721389446438, guid: ec099ff1a8840f441a2ee5b1cbea3142, type: 3}
+    - type: 1
+      prefab: {fileID: 1885592444113531897, guid: ce018875a2b2fad4ea97e100938506d5, type: 3}
+    - type: 3
+      prefab: {fileID: 3587685068438149349, guid: 528275f27458a1c428c3dad0d4639866, type: 3}
+  - groupName: Crying Man
+    groupItems:
+    - type: 0
+      prefab: {fileID: 3774338162187746401, guid: 25f31c85f843aa9449f5c93a2aa24069, type: 3}
+    - type: 1
+      prefab: {fileID: 1827207649796051556, guid: 20aea5e928e633642a69aef77b0ebdf1, type: 3}
+    - type: 2
+      prefab: {fileID: 1186737644263515005, guid: 3a5a8e3b590fd0549bc15bb34d230e06, type: 3}
