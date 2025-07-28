@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Bush
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6012414737918509260, guid: dfe4966ae9b0596489db242fd595ee09, type: 3}
+    - type: 1
+      prefab: {fileID: 6241001143663182872, guid: 61c6427f625412c45b7d7df0e0449597, type: 3}
+    - type: 3
+      prefab: {fileID: 5179016088277355194, guid: b80728ba0e855a24d9bf39a926f90d1b, type: 3}
+    - type: 2
+      prefab: {fileID: 9133019360012835261, guid: ac9e0b889386fda43969c33ecae559c9, type: 3}
+  - groupName: Spongebob searching
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6653340362667884454, guid: fbe00abc869cb624898f531bd866f15c, type: 3}
+    - type: 1
+      prefab: {fileID: 6998062630813904933, guid: c89e80982d3a4f846aa425ee0617de43, type: 3}
+    - type: 2
+      prefab: {fileID: 8478283094610035593, guid: 133afb8b068ee6946a4ea8633bd04581, type: 3}
+  - groupName: Shopping Cart
+    groupItems:
+    - type: 0
+      prefab: {fileID: 1895746529290775673, guid: 0a7c2d1b4abb16b40a9c1a406584938f, type: 3}
+    - type: 1
+      prefab: {fileID: 8546113753943364145, guid: 3e03286fce5721b4d9ba76db385884e9, type: 3}
+    - type: 3
+      prefab: {fileID: 4610038397617001164, guid: 1ac6ba11092cef649b4519461b13bbb5, type: 3}
