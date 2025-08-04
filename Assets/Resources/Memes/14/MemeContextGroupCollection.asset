@@ -13,33 +13,31 @@ MonoBehaviour:
   m_Name: MemeContextGroupCollection
   m_EditorClassIdentifier: 
   memeGroups:
-  - groupName: big question
+  - groupName: Bateman Walking
     groupItems:
     - type: 0
-      prefab: {fileID: 6889917998087320300, guid: 7cf6d8183ac6d2544a991e6e4c882fb2, type: 3}
+      prefab: {fileID: 7571048552814170940, guid: 4b0329499b1c17243b7e29d38dc6a62e, type: 3}
     - type: 1
-      prefab: {fileID: 636550059357247224, guid: d5e9d03add896ab44b29b1e5763fdf50, type: 3}
+      prefab: {fileID: 6014857028903734494, guid: 1780911cd8ec63348b00bce2abf6c05e, type: 3}
     - type: 2
-      prefab: {fileID: 7509979662781761569, guid: 0b5685b0e1d8bd644b5c9c50638d74df, type: 3}
+      prefab: {fileID: 5664693619887978136, guid: ef2978ddf4bb88d4da17d7b34875c63e, type: 3}
+  - groupName: 'Fast Flash '
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6676237431525082638, guid: eed130ea9be84e04c954234f431f14c0, type: 3}
+    - type: 2
+      prefab: {fileID: 4153630056282557820, guid: f03b83091cfc33b42b983a8f6b5234a0, type: 3}
+    - type: 1
+      prefab: {fileID: 1824271215265766806, guid: 4b6a86a3ea07ce44ca93173752c72724, type: 3}
     - type: 3
-      prefab: {fileID: 6363690659598225317, guid: f63957a00b8c2f940a1cebdc88dec938, type: 3}
-  - groupName: scientist
+      prefab: {fileID: 6565741945190036454, guid: 86491babb76a72e438bba6232d0c1b48, type: 3}
+  - groupName: Nokotan Entering Classroom
     groupItems:
     - type: 0
-      prefab: {fileID: 4891086062781481759, guid: aeb5592507c70b142a097741b552a723, type: 3}
-    - type: 1
-      prefab: {fileID: 7271595467385532452, guid: bace8f9bf23d1b444bffbd53f36a8550, type: 3}
+      prefab: {fileID: 5223278904861932324, guid: 9e8c1d58f9f53df4285d7a261f6c477b, type: 3}
     - type: 2
-      prefab: {fileID: 863132546133766465, guid: e73f9b0ba5b3827429c16269dacc9adf, type: 3}
+      prefab: {fileID: 2375990041091582506, guid: f7cef3fb08e8e86499522f90b2d75faf, type: 3}
     - type: 3
-      prefab: {fileID: 4376314941617381263, guid: d9d8910abdfec0844b57ac920fed8ea0, type: 3}
-  - groupName: cat
-    groupItems:
-    - type: 0
-      prefab: {fileID: 3628319435659152746, guid: 29ad67139a80d9d46962c923507cb46e, type: 3}
+      prefab: {fileID: 8169407892893707091, guid: 71b8b99f127542840a415cb479d292a3, type: 3}
     - type: 1
-      prefab: {fileID: 2437392121875836870, guid: 025db08e21ca54649b1e352f3f12f364, type: 3}
-    - type: 2
-      prefab: {fileID: 3394862955266235615, guid: 3298e5f0f855f3948916789c1c28439d, type: 3}
-    - type: 2
-      prefab: {fileID: 1449325557066717142, guid: 100097ed2ba8f0d4ab2eda21610b5071, type: 3}
+      prefab: {fileID: 2400717696665834656, guid: 728811b1f9bd0eb469c4ae4f4f8ffb29, type: 3}
