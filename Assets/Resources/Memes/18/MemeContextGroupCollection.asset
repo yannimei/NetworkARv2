@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: sea gull
+    groupItems:
+    - type: 0
+      prefab: {fileID: 818296656159489472, guid: 2b907bf056c49a64591fed3b4a30c961, type: 3}
+    - type: 1
+      prefab: {fileID: 3965853278165416265, guid: 8a6ccfb3ec95ed347b4ff46a71014e47, type: 3}
+    - type: 2
+      prefab: {fileID: 6032345184782223625, guid: 2163014a90cbdde47ba7893e9ea32a34, type: 3}
+  - groupName: give me their number
+    groupItems:
+    - type: 0
+      prefab: {fileID: 2074431430340991470, guid: 20ef71c7fd20ce549943cd3d43163412, type: 3}
+    - type: 1
+      prefab: {fileID: 4134404942215911865, guid: 28b4f1b1efe6afe42ac6c4c081bb824a, type: 3}
+    - type: 2
+      prefab: {fileID: 4132145899236303151, guid: 34c6d66a5342c294cadc962f9809d15d, type: 3}
+  - groupName: same pic
+    groupItems:
+    - type: 0
+      prefab: {fileID: 9056824363723005103, guid: ecc207c4a1583a644b91b01f9744d166, type: 3}
+    - type: 1
+      prefab: {fileID: 4894812403506728887, guid: 153f422e2caf82246aa91a1292859bdd, type: 3}
+    - type: 2
+      prefab: {fileID: 3726358200003277816, guid: f072817f45ab2914d8aa9fa3b05bdbaa, type: 3}
+    - type: 3
+      prefab: {fileID: 1051967116652910428, guid: 7af15ebd79178254ca789f878169cbf8, type: 3}

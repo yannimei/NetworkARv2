@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Max fosh uno reverse
+    groupItems:
+    - type: 0
+      prefab: {fileID: 5621731982124736175, guid: ccec8e5b717e99c4bae0d2c082d152fc, type: 3}
+    - type: 1
+      prefab: {fileID: 4417405843468034769, guid: dfc8b20501392ed448d3cf26f03430ff, type: 3}
+    - type: 2
+      prefab: {fileID: 6055592249675451244, guid: a30782155a46d4d4f8a71efbe5772b7b, type: 3}
+    - type: 3
+      prefab: {fileID: 6162068357590646759, guid: 64245e03e65284942b5a5f25d12c16a9, type: 3}
+  - groupName: Suprise anime guy
+    groupItems:
+    - type: 0
+      prefab: {fileID: 8459042531405270431, guid: ad8a0ee578441df4bbbb3d96dec052ef, type: 3}
+    - type: 1
+      prefab: {fileID: 8533481294126071208, guid: 4ee9adb7b06c51641aa9b50f5c395f9d, type: 3}
+    - type: 2
+      prefab: {fileID: 7276978019702146428, guid: 046ed47ed77d15447930057bb9a36d5d, type: 3}
+  - groupName: Brain
+    groupItems:
+    - type: 0
+      prefab: {fileID: 3916823515378695235, guid: dc5f3d92c01afe1488aa9febd4484a22, type: 3}
+    - type: 1
+      prefab: {fileID: 7750008809440097222, guid: 4944daec5f655004caf06c84b982efae, type: 3}
+    - type: 2
+      prefab: {fileID: 5006543325792005297, guid: 13d17db8b3f27754d85a52fe93921600, type: 3}

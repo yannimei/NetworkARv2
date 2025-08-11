@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: cow
+    groupItems:
+    - type: 0
+      prefab: {fileID: 3485945656513526075, guid: e679c314e6b711941b308b4e32c9741e, type: 3}
+    - type: 1
+      prefab: {fileID: 2594218880518350676, guid: f21a7ef167f2ff240a2b28fffa870885, type: 3}
+    - type: 2
+      prefab: {fileID: 6537316533817533779, guid: eb020eacf495716498f610afa978b176, type: 3}
+  - groupName: cooking
+    groupItems:
+    - type: 0
+      prefab: {fileID: 7577666485390285481, guid: c064c6fd7e61a2d47b29760aab119fd0, type: 3}
+    - type: 1
+      prefab: {fileID: 4089607879153036062, guid: 3782cbbf41d5a8949aa84de831d31476, type: 3}
+    - type: 3
+      prefab: {fileID: 1765132271771578099, guid: d534f0f18ca52e8498f3196eb88af872, type: 3}
+  - groupName: fire writing
+    groupItems:
+    - type: 0
+      prefab: {fileID: 4552725302596790168, guid: bbd7dca1d145d50428ec23f93e4b993b, type: 3}
+    - type: 3
+      prefab: {fileID: 7198907639273715920, guid: 4838894ad9ed1ba46a1b4af5b80f6c20, type: 3}

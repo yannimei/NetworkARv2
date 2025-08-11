@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: dog
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6436038240773131637, guid: 0be8ded579fb5ed4bba20df0f28d2ea9, type: 3}
+    - type: 1
+      prefab: {fileID: 2301980063885242463, guid: 0ed4f802ef677d9498eb21255644c26f, type: 3}
+    - type: 2
+      prefab: {fileID: 2355711726586203362, guid: 5663ca5e89b6d5b41a7d6ccc8756b7aa, type: 3}
+  - groupName: desk
+    groupItems:
+    - type: 0
+      prefab: {fileID: 6275179367754710428, guid: da0bdbbe57d6b194894eebb98d896263, type: 3}
+    - type: 1
+      prefab: {fileID: 8398739222499616550, guid: 94ddea0ac0ff14840bc20114deb45965, type: 3}
+    - type: 3
+      prefab: {fileID: 3994184469815442659, guid: c2d87fa0f11a6744fa4a7e064b283122, type: 3}
+  - groupName: dont go anywhere
+    groupItems:
+    - type: 0
+      prefab: {fileID: 9035355518061462020, guid: ddcefe75197b04b4cbc65df887cb40ff, type: 3}
+    - type: 1
+      prefab: {fileID: 5675974078641735183, guid: 8a9df11983463be44950ebf324e268ec, type: 3}
+    - type: 2
+      prefab: {fileID: 501142862233698556, guid: 77dc506a48b86f84db5923b3a58a2a95, type: 3}
