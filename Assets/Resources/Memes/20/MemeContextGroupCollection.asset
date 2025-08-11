@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Screaming beaver
+    groupItems:
+    - type: 0
+      prefab: {fileID: 164792406005251972, guid: be070fd4ba4c9b24ca38a8e6cda92b9c, type: 3}
+    - type: 1
+      prefab: {fileID: 1152884691089986456, guid: ad1eb6d7ccb01f24b95af334fc3e8d80, type: 3}
+    - type: 2
+      prefab: {fileID: 1481448830882389224, guid: 82cecc21797c63a4c9e68c5bee36e5bc, type: 3}
+  - groupName: Brickwall
+    groupItems:
+    - type: 0
+      prefab: {fileID: 5122896389365294919, guid: 6e307fdf9b45eee41ab34b46037d9373, type: 3}
+    - type: 1
+      prefab: {fileID: 299398362760438432, guid: cf51b726f82512642aa2e18c93dce18e, type: 3}
+    - type: 2
+      prefab: {fileID: 126329889791738045, guid: 0ff636cb89d12a948978e6b2963d8384, type: 3}
+  - groupName: Suprise
+    groupItems:
+    - type: 0
+      prefab: {fileID: 3495021163134247618, guid: c7a15237228a0dc4d973fbcad78e632a, type: 3}
+    - type: 1
+      prefab: {fileID: 5373989724055553055, guid: b80fce5e1d852ba428b614571c934b22, type: 3}
+    - type: 2
+      prefab: {fileID: 2707832331927751028, guid: cd60acb052cc77a4ea7ddbf357ce2b44, type: 3}
