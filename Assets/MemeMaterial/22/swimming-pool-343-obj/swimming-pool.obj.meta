@@ -3,7 +3,27 @@ guid: 80b49fa8eb577974badc32dc32bc7491
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: concrete-exterior
+    second: {fileID: 2100000, guid: 4836211312de24245a05817f32711a0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2100000, guid: 4836211312de24245a05817f32711a0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tiles-border
+    second: {fileID: 2100000, guid: 4836211312de24245a05817f32711a0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: walls-and-floor
+    second: {fileID: 2100000, guid: 4836211312de24245a05817f32711a0d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
