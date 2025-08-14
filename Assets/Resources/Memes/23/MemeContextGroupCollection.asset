@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b4131f6463d224c9f304b230d28745, type: 3}
+  m_Name: MemeContextGroupCollection
+  m_EditorClassIdentifier: 
+  memeGroups:
+  - groupName: Shrek
+    groupItems:
+    - type: 0
+      prefab: {fileID: 5027227656849247597, guid: f7524f72bd3048c4790114aca3671a9e, type: 3}
+    - type: 1
+      prefab: {fileID: 4363468662089902114, guid: b06c1a508084ae14c8a30f737b51b062, type: 3}
+    - type: 2
+      prefab: {fileID: 2325369657822324749, guid: f8421504b05ee1641b5f85bca46f95c3, type: 3}
+  - groupName: Same pic
+    groupItems:
+    - type: 0
+      prefab: {fileID: 1872057849685603038, guid: ecc49980b3ef89c48945cc0b302a6a50, type: 3}
+    - type: 1
+      prefab: {fileID: 3078244584308340318, guid: 695662c5620a9a248adb40ecc05c4193, type: 3}
+    - type: 2
+      prefab: {fileID: 3944834070841844253, guid: fccaa7e80cfaaec4f90a6c883e3cdd40, type: 3}
+    - type: 3
+      prefab: {fileID: 2111450750187145634, guid: a4f24c1a68367594dabc89e19f853aa5, type: 3}
+  - groupName: Math Woman
+    groupItems:
+    - type: 0
+      prefab: {fileID: 1139662215089592245, guid: e9bab81b53723cd41a439f84b86b9edf, type: 3}
+    - type: 2
+      prefab: {fileID: 1951686513380097364, guid: f47c9a076f0350447bbe258cd9fef9c8, type: 3}
+    - type: 3
+      prefab: {fileID: 7129485565813548067, guid: 999e7d7374aa09c4f94aac2b863d82ef, type: 3}
+    - type: 1
+      prefab: {fileID: 832478769818760064, guid: 576c715d99b532946809a584dd4394a0, type: 3}
