@@ -6,6 +6,10 @@ A networked AR application with co-location support, developed for the user stud
 
 NetworkARv2 enables multiple AR headsets to interact in a shared augmented environment. Designed for meme-sharing user studies, it supports synchronized AR memes (appearing, location, position, animation) across devices with real-time communication.
 
+🧩 Unity Version
+
+Unity 6 is required
+
 🧩 Device Requirements
 
 Meta Quest 3, Meta Quest 3s, or Meta Quest Pro
